@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:pokedex/ui/components/app_theme.dart';
+import 'package:pokedex/ui/components/components.dart';
 
 import 'factories/pages/pokemons/pokemons_page_factory.dart';
 

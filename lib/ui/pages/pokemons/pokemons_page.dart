@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/ui/components/components.dart';
 
 import 'components/components.dart';
 import 'pokemons_presenter.dart';
@@ -14,6 +15,14 @@ class PokemonsPage extends StatelessWidget {
       backgroundColor: Color(0xFFDC0A2D),
       body: Builder(
         builder: (context) {
+          presenter.isLoadingStream.listen((loading) {
+            if (loading == true) {
+              showLoading(context);
+            } else {
+              hideLoading(context);
+            }
+          });
+
           presenter.loadData();
           return SafeArea(
             child: Column(
