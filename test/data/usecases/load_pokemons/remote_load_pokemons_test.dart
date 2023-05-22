@@ -2,30 +2,12 @@
 
 import 'package:faker/faker.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pokedex/data/models/models.dart';
-import 'package:pokedex/domain/helpers/helpers.dart';
 import 'package:test/test.dart';
-import 'package:meta/meta.dart';
 
+import 'package:pokedex/data/usecases/load_pokemons/remote_load_pokemons.dart';
+import 'package:pokedex/domain/helpers/helpers.dart';
 import 'package:pokedex/data/http/http.dart';
 import 'package:pokedex/domain/entities/entities.dart';
-
-class RemoteLoadPokemons {
-  final HttpClient httpClient;
-  final String url;
-
-  RemoteLoadPokemons({@required this.httpClient, @required this.url});
-
-  Future<PokemonResultEntity> load(int page) async {
-    try {
-      final httpResponse = await httpClient.request(
-          url: url, method: 'get', params: {'offset': page * 10, 'limit': 10});
-      return RemotePokemonResultModel.fromJson(httpResponse).toEntity();
-    } catch (error) {
-      throw DomainError.unexpected;
-    }
-  }
-}
 
 class HttpClientSpy extends Mock implements HttpClient {}
 
