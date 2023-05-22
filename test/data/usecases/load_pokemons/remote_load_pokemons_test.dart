@@ -23,24 +23,23 @@ class RemoteLoadPokemons {
 class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
+  RemoteLoadPokemons sut;
+  HttpClient httpClient;
+  String url;
+
+  setUp(() {
+    httpClient = HttpClientSpy();
+    url = faker.internet.httpUrl();
+    sut = RemoteLoadPokemons(httpClient: httpClient, url: url);
+  });
+
   test('Should call HttpClient with correct values', () async {
-    HttpClient httpClient = HttpClientSpy();
-    String url = faker.internet.httpUrl();
-    RemoteLoadPokemons sut =
-        RemoteLoadPokemons(httpClient: httpClient, url: url);
-
     await sut.load(0);
-
     verify(httpClient
         .request(url: url, method: 'get', params: {'offset': 0, 'limit': 10}));
   });
 
   test('Should call HttpClient with correct values in second page', () async {
-    HttpClient httpClient = HttpClientSpy();
-    String url = faker.internet.httpUrl();
-    RemoteLoadPokemons sut =
-        RemoteLoadPokemons(httpClient: httpClient, url: url);
-
     await sut.load(1);
 
     verify(httpClient
