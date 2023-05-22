@@ -3,6 +3,7 @@
 import 'package:faker/faker.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pokedex/data/models/models.dart';
+import 'package:pokedex/domain/helpers/helpers.dart';
 import 'package:test/test.dart';
 import 'package:meta/meta.dart';
 
@@ -16,9 +17,13 @@ class RemoteLoadPokemons {
   RemoteLoadPokemons({@required this.httpClient, @required this.url});
 
   Future<PokemonResultEntity> load(int page) async {
-    final httpResponse = await httpClient.request(
-        url: url, method: 'get', params: {'offset': page * 10, 'limit': 10});
-    return RemotePokemonResultModel.fromJson(httpResponse).toEntity();
+    try {
+      final httpResponse = await httpClient.request(
+          url: url, method: 'get', params: {'offset': page * 10, 'limit': 10});
+      return RemotePokemonResultModel.fromJson(httpResponse).toEntity();
+    } catch (error) {
+      throw DomainError.unexpected;
+    }
   }
 }
 
@@ -96,5 +101,15 @@ void main() {
         ],
       ),
     );
+  });
+
+  test(
+      'Should throw UnexpectedError if httpclient returns 200 with invalid data',
+      () async {
+    mockHttpData({'invalid_key': 'invalid_value'});
+
+    final future = sut.load(0);
+
+    expect(future, throwsA(DomainError.unexpected));
   });
 }
