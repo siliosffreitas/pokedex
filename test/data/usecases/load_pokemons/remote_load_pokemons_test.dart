@@ -15,8 +15,8 @@ class RemoteLoadPokemons {
   RemoteLoadPokemons({@required this.httpClient, @required this.url});
 
   Future<List<PokemonResult>> load(int page) {
-    httpClient
-        .request(url: url, method: 'get', params: {'offset': 0, 'limit': 10});
+    httpClient.request(
+        url: url, method: 'get', params: {'offset': page * 10, 'limit': 10});
   }
 }
 
@@ -33,5 +33,17 @@ void main() {
 
     verify(httpClient
         .request(url: url, method: 'get', params: {'offset': 0, 'limit': 10}));
+  });
+
+  test('Should call HttpClient with correct values in second page', () async {
+    HttpClient httpClient = HttpClientSpy();
+    String url = faker.internet.httpUrl();
+    RemoteLoadPokemons sut =
+        RemoteLoadPokemons(httpClient: httpClient, url: url);
+
+    await sut.load(1);
+
+    verify(httpClient
+        .request(url: url, method: 'get', params: {'offset': 10, 'limit': 10}));
   });
 }
