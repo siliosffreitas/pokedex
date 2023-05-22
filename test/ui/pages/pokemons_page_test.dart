@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:image_test_utils/image_test_utils.dart';
 import 'package:mockito/mockito.dart';
+import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
+import 'package:pokedex/ui/pages/pokemons/pokemon_result_view_model.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
 
 class PokemonsPresenterSpy extends Mock implements PokemonsPresenter {}
@@ -13,12 +15,17 @@ main() {
   PokemonsPresenter presenter;
 
   StreamController<bool> isLoadingController;
+  StreamController<PokemonsResultViewModel> loadPokemonsController;
 
   initStreams() {
     isLoadingController = StreamController<bool>();
+    loadPokemonsController = StreamController<PokemonsResultViewModel>();
   }
 
   mockStreams() {
+    when(presenter.pokemonsStream)
+        .thenAnswer((_) => loadPokemonsController.stream);
+
     when(presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
   }
@@ -43,6 +50,7 @@ main() {
 
   closeStreams() {
     isLoadingController.close();
+    loadPokemonsController.close();
   }
 
   tearDown(() {
@@ -74,5 +82,18 @@ main() {
     isLoadingController.add(null);
     await tester.pump();
     expect(find.byType(CircularProgressIndicator), findsNothing);
+  });
+
+  testWidgets('Should present error if loadPokemonsStreams fails',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.addError(UIError.unexpected.description);
+    await tester.pump();
+    expect(find.text('Algo errado aconteceu. Tente novamente mais tarde.'),
+        findsOneWidget);
+
+    expect(find.text('Recarregar'), findsOneWidget);
+    expect(find.text('Pokémon 1'), findsNothing);
   });
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pokedex/ui/components/components.dart';
 
 import 'components/components.dart';
+import 'pokemon_result_view_model.dart';
 import 'pokemons_presenter.dart';
 
 class PokemonsPage extends StatelessWidget {
@@ -109,7 +110,19 @@ class PokemonsPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
                     ),
-                    child: PokemonItens(),
+                    child: StreamBuilder<PokemonsResultViewModel>(
+                        stream: presenter.pokemonsStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return ReloadScreenPage(
+                                error: snapshot.error,
+                                reload: presenter.loadData);
+                          }
+                          if (snapshot.hasData) {
+                            return PokemonItens();
+                          }
+                          return Container();
+                        }),
                   ),
                 )
               ],
