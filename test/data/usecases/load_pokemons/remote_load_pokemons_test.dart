@@ -112,4 +112,19 @@ void main() {
 
     expect(future, throwsA(DomainError.unexpected));
   });
+
+  test(
+      'Should throw UnexpectedError if httpclient returns 200 with invalid data in pokemon',
+      () async {
+    mockHttpData({
+      'count': 1,
+      "results": [
+        {'invalid_key': 'invalid_value'},
+      ]
+    });
+
+    final future = sut.load(0);
+
+    expect(future, throwsA(DomainError.unexpected));
+  });
 }

@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:pokedex/data/http/http.dart';
 import 'package:pokedex/domain/entities/entities.dart';
 
 class RemotePokemonModel {
@@ -11,6 +12,9 @@ class RemotePokemonModel {
   });
 
   factory RemotePokemonModel.fromJson(Map json) {
+    if (!json.keys.toSet().containsAll(['name', 'url'])) {
+      throw HttpError.invalidData;
+    }
     return RemotePokemonModel(
       name: json['name'],
       url: json['url'],
