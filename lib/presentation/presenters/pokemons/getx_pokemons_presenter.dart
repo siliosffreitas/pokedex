@@ -10,6 +10,7 @@ class GetxPokemonsPresenter extends GetxController
     with LoadManager, NavigateManager
     implements PokemonsPresenter {
   final LoadPokemons loadPokemons;
+  final LoadPokemonDetails loadPokemonDetails;
 
   var _pokemons = Rx<PokemonsResultViewModel>();
 
@@ -20,7 +21,10 @@ class GetxPokemonsPresenter extends GetxController
   Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream =>
       throw UnimplementedError();
 
-  GetxPokemonsPresenter({@required this.loadPokemons});
+  GetxPokemonsPresenter({
+    @required this.loadPokemons,
+    @required this.loadPokemonDetails,
+  });
 
   Future<void> loadData() async {
     try {
@@ -34,7 +38,6 @@ class GetxPokemonsPresenter extends GetxController
         final p = <PokemonViewModel>[]
           ..addAll(_pokemons.value.pokemons)
           ..addAll(viewModel.pokemons);
-        // _pokemons.value = null;
         _pokemons.value = PokemonsResultViewModel(pokemons: p);
       }
       _page++;
@@ -49,5 +52,7 @@ class GetxPokemonsPresenter extends GetxController
     navigateTo = '/pokemon/$id';
   }
 
-  void loadDetails(PokemonViewModel pokemon) {}
+  Future<void> loadDetails(PokemonViewModel pokemon) async {
+    loadPokemonDetails.load(pokemon.toEntity());
+  }
 }

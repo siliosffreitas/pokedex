@@ -13,9 +13,12 @@ import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dar
 
 class LoadPokemonsSpy extends Mock implements LoadPokemons {}
 
+class LoadPokemonDetailsSpy extends Mock implements LoadPokemonDetails {}
+
 main() {
   GetxPokemonsPresenter sut;
   LoadPokemons loadPokemons;
+  LoadPokemonDetails loadPokemonDetails;
   PokemonResultEntity pokemons;
 
   PokemonResultEntity mockValidData() => PokemonResultEntity(
@@ -42,7 +45,11 @@ main() {
 
   setUp(() {
     loadPokemons = LoadPokemonsSpy();
-    sut = GetxPokemonsPresenter(loadPokemons: loadPokemons);
+    loadPokemonDetails = LoadPokemonDetailsSpy();
+    sut = GetxPokemonsPresenter(
+      loadPokemons: loadPokemons,
+      loadPokemonDetails: loadPokemonDetails,
+    );
     mockLoadPokemons(mockValidData());
   });
 
@@ -128,5 +135,15 @@ main() {
         )));
 
     await sut.loadData();
+  });
+
+  test('Should call loadPokemons on loadData', () {
+    sut.loadData();
+    verify(loadPokemons.load(0)).called(1);
+  });
+
+  test('Should call loadPokemonDetails on pokemon load', () {
+    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+    verify(loadPokemonDetails.load(pokemons.pokemons[0])).called(1);
   });
 }

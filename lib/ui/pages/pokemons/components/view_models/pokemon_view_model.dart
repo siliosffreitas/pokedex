@@ -20,6 +20,7 @@ class PokemonViewModel extends Equatable {
       url: entity.url,
     );
   }
+  PokemonEntity toEntity() => PokemonEntity(name: name, url: url);
 
   List<Object> get props => [id, url, name];
 }
