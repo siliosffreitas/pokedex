@@ -4,9 +4,11 @@ import 'package:pokedex/domain/usecases/usecases.dart';
 import 'package:pokedex/presentation/mixins/mixins.dart';
 import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemon_result_view_model.dart';
+import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
 
 class GetxPokemonsPresenter extends GetxController
-    with LoadManager, NavigateManager {
+    with LoadManager, NavigateManager
+    implements PokemonsPresenter {
   final LoadPokemons loadPokemons;
 
   var _pokemons = Rx<PokemonsResultViewModel>();
