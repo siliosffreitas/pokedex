@@ -9,9 +9,15 @@ import 'package:pokedex/presentation/presenters/pokemons/getx_pokemons_presenter
 class LoadPokemonsSpy extends Mock implements LoadPokemons {}
 
 main() {
+  GetxPokemonsPresenter sut;
+  LoadPokemons loadPokemons;
+
+  setUp(() {
+    loadPokemons = LoadPokemonsSpy();
+    sut = GetxPokemonsPresenter(loadPokemons: loadPokemons);
+  });
+
   test('Should call loadPokemons on loadData', () {
-    final loadPokemons = LoadPokemonsSpy();
-    final sut = GetxPokemonsPresenter(loadPokemons: loadPokemons);
     sut.loadData();
     verify(loadPokemons.load(0)).called(1);
   });
