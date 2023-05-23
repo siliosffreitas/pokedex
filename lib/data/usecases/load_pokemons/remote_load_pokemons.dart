@@ -18,7 +18,7 @@ class RemoteLoadPokemons implements LoadPokemons {
   Future<PokemonResultEntity> load(int page) async {
     try {
       final httpResponse = await httpClient.request(
-          url: url, method: 'get', params: {'offset': page * 20, 'limit': 20});
+          url: url, method: 'get', params: {'offset': page * 10, 'limit': 10});
       return RemotePokemonResultModel.fromJson(httpResponse).toEntity();
     } catch (error) {
       throw DomainError.unexpected;

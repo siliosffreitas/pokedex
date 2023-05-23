@@ -58,14 +58,14 @@ void main() {
   test('Should call HttpClient with correct values', () async {
     await sut.load(0);
     verify(httpClient
-        .request(url: url, method: 'get', params: {'offset': 0, 'limit': 20}));
+        .request(url: url, method: 'get', params: {'offset': 0, 'limit': 10}));
   });
 
   test('Should call HttpClient with correct values in second page', () async {
     await sut.load(1);
 
     verify(httpClient
-        .request(url: url, method: 'get', params: {'offset': 20, 'limit': 20}));
+        .request(url: url, method: 'get', params: {'offset': 10, 'limit': 10}));
   });
 
   test('Should return pokemons on 200', () async {
