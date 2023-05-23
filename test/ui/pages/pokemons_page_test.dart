@@ -135,6 +135,18 @@ main() {
     expect(find.byType(LoadNextPage), findsOneWidget);
   });
 
+  testWidgets('Should call loadPokemons on LoadNextPage init',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.add(makePokemons());
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+
+    verify(presenter.loadData()).called(2);
+  });
+
   testWidgets('Should call loadPokemons on reload button click',
       (WidgetTester tester) async {
     await loadPage(tester);
