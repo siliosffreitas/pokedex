@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:pokedex/ui/components/components.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,11 @@ class PokemonsPage extends StatelessWidget {
           });
 
           presenter.loadData();
+          presenter.navigateToStream.listen((page) {
+            if (page?.isNotEmpty == true) {
+              Get.toNamed(page);
+            }
+          });
           return SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -17,18 +17,21 @@ main() {
 
   StreamController<bool> isLoadingController;
   StreamController<PokemonsResultViewModel> loadPokemonsController;
+  StreamController<String> navigateToController;
 
   initStreams() {
     isLoadingController = StreamController<bool>();
     loadPokemonsController = StreamController<PokemonsResultViewModel>();
+    navigateToController = StreamController<String>();
   }
 
   mockStreams() {
     when(presenter.pokemonsStream)
         .thenAnswer((_) => loadPokemonsController.stream);
-
     when(presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
+    when(presenter.navigateToStream)
+        .thenAnswer((_) => navigateToController.stream);
   }
 
   PokemonsResultViewModel makePokemons() => PokemonsResultViewModel(pokemons: [
@@ -55,6 +58,8 @@ main() {
       getPages: [
         GetPage(
             name: '/pokemons', page: () => PokemonsPage(presenter: presenter)),
+        GetPage(
+            name: '/any_route', page: () => Scaffold(body: Text('fake page'))),
       ],
     );
     await provideMockedNetworkImages(() async {
@@ -65,6 +70,7 @@ main() {
   closeStreams() {
     isLoadingController.close();
     loadPokemonsController.close();
+    navigateToController.close();
   }
 
   tearDown(() {
@@ -152,5 +158,16 @@ main() {
     await tester.tap(button);
     await tester.pump();
     verify(presenter.goToPokemonDetail('1')).called(1);
+  });
+
+  testWidgets('Should change page', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/any_route');
+    await tester.pumpAndSettle();
+
+    expect(Get.currentRoute, '/any_route');
+
+    expect(find.text('fake page'), findsOneWidget);
   });
 }
