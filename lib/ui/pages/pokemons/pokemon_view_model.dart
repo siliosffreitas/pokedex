@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:pokedex/domain/entities/entities.dart';
 
-class PokemonViewModel {
+class PokemonViewModel extends Equatable {
   final String id;
   final String url;
   final String name;
@@ -10,4 +12,14 @@ class PokemonViewModel {
     @required this.url,
     @required this.name,
   });
+
+  factory PokemonViewModel.fromEntity(PokemonEntity entity) {
+    return PokemonViewModel(
+      id: null,
+      name: entity.name,
+      url: entity.url,
+    );
+  }
+
+  List<Object> get props => [id, url, name];
 }
