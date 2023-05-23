@@ -272,6 +272,84 @@ void main() {
         ],
       };
 
+  Map mockInValidDataInAbility() => {
+        "name": faker.person.name(),
+        "id": faker.randomGenerator.integer(100),
+        "sprites": {
+          "other": {
+            "home": {
+              "front_default": faker.internet.httpUrl(),
+            },
+          },
+        },
+        "types": [
+          {
+            "slot": faker.randomGenerator.integer(100),
+            "type": {
+              "name": faker.lorem.word(),
+              "url": faker.internet.httpUrl(),
+            }
+          },
+        ],
+        "weight": faker.randomGenerator.integer(100),
+        "height": faker.randomGenerator.integer(100),
+        "abilities": [
+          {
+            "invalid_key": 'invalid_value',
+          },
+        ],
+        "stats": [
+          {
+            "base_stat": faker.randomGenerator.integer(100),
+            "effort": 0,
+            "stat": {
+              "name": "hp",
+              "url": faker.internet.httpUrl(),
+            }
+          },
+          {
+            "base_stat": faker.randomGenerator.integer(100),
+            "effort": 0,
+            "stat": {
+              "name": "attack",
+              "url": faker.internet.httpUrl(),
+            }
+          },
+          {
+            "base_stat": faker.randomGenerator.integer(100),
+            "effort": 0,
+            "stat": {
+              "name": "defense",
+              "url": faker.internet.httpUrl(),
+            }
+          },
+          {
+            "base_stat": faker.randomGenerator.integer(100),
+            "effort": 1,
+            "stat": {
+              "name": "special-attack",
+              "url": faker.internet.httpUrl(),
+            }
+          },
+          {
+            "base_stat": faker.randomGenerator.integer(100),
+            "effort": 0,
+            "stat": {
+              "name": "special-defense",
+              "url": faker.internet.httpUrl(),
+            }
+          },
+          {
+            "base_stat": faker.randomGenerator.integer(100),
+            "effort": 0,
+            "stat": {
+              "name": "speed",
+              "url": faker.internet.httpUrl(),
+            }
+          }
+        ],
+      };
+
   PostExpectation mockRequest() => when(
       httpClient.request(url: anyNamed('url'), method: anyNamed('method')));
 
@@ -359,6 +437,16 @@ void main() {
       'Should throw UnexpectedError if httpclient returns 200 with invalid data in type',
       () async {
     mockHttpData(mockInValidDataInType());
+
+    final future = sut.load(pokemon);
+
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test(
+      'Should throw UnexpectedError if httpclient returns 200 with invalid data in ability',
+      () async {
+    mockHttpData(mockInValidDataInAbility());
 
     final future = sut.load(pokemon);
 
