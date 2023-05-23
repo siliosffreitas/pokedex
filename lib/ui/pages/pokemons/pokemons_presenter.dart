@@ -1,3 +1,5 @@
+import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
+
 import 'pokemon_result_view_model.dart';
 
 abstract class PokemonsPresenter {
@@ -8,4 +10,6 @@ abstract class PokemonsPresenter {
   Future<void> loadData();
 
   void goToPokemonDetail(String id);
+
+  void loadDetails(PokemonViewModel pokemon);
 }

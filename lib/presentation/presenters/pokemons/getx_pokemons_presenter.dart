@@ -45,4 +45,6 @@ class GetxPokemonsPresenter extends GetxController
   void goToPokemonDetail(String id) {
     navigateTo = '/pokemon/$id';
   }
+
+  void loadDetails(PokemonViewModel pokemon) {}
 }

@@ -135,6 +135,27 @@ main() {
     expect(find.byType(LoadNextPage), findsOneWidget);
   });
 
+  testWidgets('Should call load details on pokemon load',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    final result = makePokemons();
+    loadPokemonsController.add(result);
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+    expect(find.text('Algo errado aconteceu. Tente novamente mais tarde.'),
+        findsNothing);
+
+    expect(find.text('Recarregar'), findsNothing);
+    expect(find.text('Pokémon 1'), findsWidgets);
+    expect(find.text('Pokémon 2'), findsWidgets);
+    expect(find.byType(LoadNextPage), findsOneWidget);
+
+    verify(presenter.loadDetails(result.pokemons[0])).called(1);
+    verify(presenter.loadDetails(result.pokemons[1])).called(1);
+  });
+
   testWidgets('Should call loadPokemons on LoadNextPage init',
       (WidgetTester tester) async {
     await loadPage(tester);
