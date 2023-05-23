@@ -68,11 +68,28 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: lib/ui/assets/fonts/poppins/Poppins-Black.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-BlackItalic.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-Bold.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-BoldItalic.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-ExtraBold.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-ExtraBoldItalic.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-ExtraLight.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-ExtraLightItalic.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-Italic.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-Light.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-LightItalic.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-Medium.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-MediumItalic.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-Regular.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-SemiBold.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-SemiBoldItalic.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-Thin.ttf
+        - asset: lib/ui/assets/fonts/poppins/Poppins-ThinItalic.ttf
+
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
