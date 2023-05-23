@@ -170,4 +170,16 @@ main() {
 
     expect(find.text('fake page'), findsOneWidget);
   });
+
+  testWidgets('Should not change page', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('');
+    await tester.pump();
+    expect(Get.currentRoute, '/pokemons');
+
+    navigateToController.add(null);
+    await tester.pump();
+    expect(Get.currentRoute, '/pokemons');
+  });
 }
