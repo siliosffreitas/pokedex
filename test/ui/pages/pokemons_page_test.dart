@@ -35,12 +35,12 @@ main() {
         PokemonViewModel(
           name: 'Pokémon 1',
           url: faker.internet.httpUrl(),
-          id: faker.randomGenerator.integer(100).toString(),
+          id: '1',
         ),
         PokemonViewModel(
           name: 'Pokémon 2',
           url: faker.internet.httpUrl(),
-          id: faker.randomGenerator.integer(100).toString(),
+          id: '2',
         )
       ]);
 
@@ -125,5 +125,32 @@ main() {
     expect(find.text('Recarregar'), findsNothing);
     expect(find.text('Pokémon 1'), findsWidgets);
     expect(find.text('Pokémon 2'), findsWidgets);
+  });
+
+  testWidgets('Should call loadPokemons on reload button click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.addError(UIError.unexpected.description);
+    await tester.pump();
+
+    await tester.tap(find.text('Recarregar'));
+
+    verify(presenter.loadData()).called(2);
+  });
+
+  testWidgets('Should call goToPokemonDetailPage on pokemon click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.add(makePokemons());
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+
+    final button = find.text('Pokémon 1');
+    await tester.tap(button);
+    await tester.pump();
+    verify(presenter.goToPokemonDetail('1')).called(1);
   });
 }

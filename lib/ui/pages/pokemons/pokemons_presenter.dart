@@ -5,4 +5,6 @@ abstract class PokemonsPresenter {
   Stream<PokemonsResultViewModel> get pokemonsStream;
 
   Future<void> loadData();
+
+  void goToPokemonDetail(String id);
 }

@@ -120,7 +120,10 @@ class PokemonsPage extends StatelessWidget {
                                 reload: presenter.loadData);
                           }
                           if (snapshot.hasData) {
-                            return PokemonItens(viewModel: snapshot.data);
+                            return Provider(
+                              create: (_) => presenter,
+                              child: PokemonItens(viewModel: snapshot.data),
+                            );
                           }
                           return Container();
                         }),
