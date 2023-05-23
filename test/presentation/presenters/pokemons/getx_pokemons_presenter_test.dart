@@ -79,4 +79,11 @@ main() {
             (error) => expect(error, UIError.unexpected.description)));
     sut.loadData();
   });
+
+  test('Should go to PokemonDetailsPage on pokemon click', () {
+    sut.navigateToStream
+        .listen(expectAsync1((page) => expect(page, '/pokemon/any_route')));
+
+    sut.goToPokemonDetail('any_route');
+  });
 }

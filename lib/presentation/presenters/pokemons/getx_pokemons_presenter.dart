@@ -5,7 +5,8 @@ import 'package:pokedex/presentation/mixins/mixins.dart';
 import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemon_result_view_model.dart';
 
-class GetxPokemonsPresenter extends GetxController with LoadManager {
+class GetxPokemonsPresenter extends GetxController
+    with LoadManager, NavigateManager {
   final LoadPokemons loadPokemons;
 
   var _pokemons = Rx<PokemonsResultViewModel>();
@@ -24,5 +25,9 @@ class GetxPokemonsPresenter extends GetxController with LoadManager {
     } finally {
       isLoading = false;
     }
+  }
+
+  void goToPokemonDetail(String id) {
+    navigateTo = '/pokemon/$id';
   }
 }
