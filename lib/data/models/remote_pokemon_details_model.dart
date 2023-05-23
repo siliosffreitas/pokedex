@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:pokedex/data/http/http.dart';
 import 'package:pokedex/data/models/models.dart';
 import 'package:pokedex/domain/entities/entities.dart';
 
@@ -34,6 +35,19 @@ class RemotePokemonDetailsModel {
   });
 
   factory RemotePokemonDetailsModel.fromJson(Map json) {
+    if (!json.keys.toSet().containsAll([
+      'name',
+      'id',
+      'sprites',
+      'types',
+      'weight',
+      'height',
+      'abilities',
+      'stats'
+    ])) {
+      throw HttpError.invalidData;
+    }
+
     return RemotePokemonDetailsModel(
       name: json['name'],
       id: json['id'],

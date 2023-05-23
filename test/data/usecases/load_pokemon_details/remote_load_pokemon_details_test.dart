@@ -4,6 +4,7 @@ import 'package:pokedex/data/http/http.dart';
 import 'package:pokedex/data/usecases/load_pokemon_details/remote_load_pokemon_details.dart';
 import 'package:pokedex/domain/entities/entities.dart';
 import 'package:pokedex/domain/entities/pokemon_entity.dart';
+import 'package:pokedex/domain/helpers/helpers.dart';
 import 'package:test/test.dart';
 
 class HttpClientSpy extends Mock implements HttpClient {}
@@ -174,5 +175,15 @@ void main() {
         speed: list['stats'][5]['base_stat'],
       ),
     );
+  });
+
+  test(
+      'Should throw UnexpectedError if httpclient returns 200 with invalid data',
+      () async {
+    mockHttpData({'invalid_key': 'invalid_value'});
+
+    final future = sut.load(pokemon);
+
+    expect(future, throwsA(DomainError.unexpected));
   });
 }
