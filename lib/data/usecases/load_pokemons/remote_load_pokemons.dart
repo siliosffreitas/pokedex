@@ -10,7 +10,10 @@ class RemoteLoadPokemons implements LoadPokemons {
   final HttpClient httpClient;
   final String url;
 
-  RemoteLoadPokemons({@required this.httpClient, @required this.url});
+  RemoteLoadPokemons({
+    @required this.httpClient,
+    @required this.url,
+  });
 
   Future<PokemonResultEntity> load(int page) async {
     try {
