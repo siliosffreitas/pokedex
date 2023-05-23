@@ -358,6 +358,10 @@ void main() {
     mockRequest().thenAnswer((_) async => data);
   }
 
+  void mockHttpError(HttpError error) {
+    mockRequest().thenThrow(error);
+  }
+
   setUp(() {
     httpClient = HttpClientSpy();
     url = faker.internet.httpUrl();
@@ -447,6 +451,14 @@ void main() {
       'Should throw UnexpectedError if httpclient returns 200 with invalid data in ability',
       () async {
     mockHttpData(mockInValidDataInAbility());
+
+    final future = sut.load(pokemon);
+
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test('Should throw UnexpectedError if httpclient returns 404', () async {
+    mockHttpError(HttpError.notFound);
 
     final future = sut.load(pokemon);
 
