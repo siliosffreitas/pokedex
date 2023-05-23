@@ -1,13 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:pokedex/domain/entities/entities.dart';
 import 'package:meta/meta.dart';
 
-class PokemonDetails {
+class PokemonDetailsEntity extends Equatable {
   final String name;
   final int id;
   final String urlPhoto;
   final List<TypeEntity> types;
-  final double weight;
-  final double height;
+  final int weight;
+  final int height;
   final List<AbilityEntity> abilities;
   final int hp;
   final int attack;
@@ -16,7 +17,7 @@ class PokemonDetails {
   final int specialDefense;
   final int speed;
 
-  PokemonDetails({
+  PokemonDetailsEntity({
     @required this.name,
     @required this.id,
     @required this.urlPhoto,
@@ -31,4 +32,20 @@ class PokemonDetails {
     @required this.specialDefense,
     @required this.speed,
   });
+
+  List<Object> get props => [
+        name,
+        id,
+        urlPhoto,
+        types,
+        weight,
+        height,
+        abilities,
+        hp,
+        attack,
+        defense,
+        specialAttack,
+        specialDefense,
+        speed
+      ];
 }
