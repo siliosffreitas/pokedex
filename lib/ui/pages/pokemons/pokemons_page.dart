@@ -4,7 +4,7 @@ import 'package:pokedex/ui/components/components.dart';
 import 'package:provider/provider.dart';
 
 import 'components/components.dart';
-import 'pokemon_result_view_model.dart';
+import 'components/view_models/view_models.dart';
 import 'pokemons_presenter.dart';
 
 class PokemonsPage extends StatelessWidget {

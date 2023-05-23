@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:pokedex/domain/usecases/usecases.dart';
 import 'package:pokedex/presentation/mixins/mixins.dart';
 import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
-import 'package:pokedex/ui/pages/pokemons/pokemon_result_view_model.dart';
+import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
 
 class GetxPokemonsPresenter extends GetxController
@@ -16,6 +16,9 @@ class GetxPokemonsPresenter extends GetxController
   int _page = 0;
 
   Stream<PokemonsResultViewModel> get pokemonsStream => _pokemons.stream;
+
+  Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream =>
+      throw UnimplementedError();
 
   GetxPokemonsPresenter({@required this.loadPokemons});
 

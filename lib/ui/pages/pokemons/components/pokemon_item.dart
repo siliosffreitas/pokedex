@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
 import 'package:provider/provider.dart';
-
-import '../pokemon_view_model.dart';
 
 class PokemonItem extends StatelessWidget {
   final PokemonViewModel viewModel;
@@ -48,22 +47,41 @@ class PokemonItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '#004',
-                            style: TextStyle(
-                                fontSize: 8, color: Color(0xFF666666)),
-                          ),
-                        ],
-                      ),
                       Expanded(
-                          child: Container(
-                        child: Image.network(
-                          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/132.png',
-                        ),
-                      )),
+                        child: StreamBuilder<
+                                Map<String, PokemonDetailsViewModel>>(
+                            stream: presenter.pokemonDetailsStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData &&
+                                  snapshot.data.containsKey(viewModel.name)) {
+                                final pokemonDetailsModel =
+                                    snapshot.data[viewModel.name];
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          pokemonDetailsModel.id,
+                                          style: TextStyle(
+                                              fontSize: 8,
+                                              color: Color(0xFF666666)),
+                                        ),
+                                      ],
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        child: Image.network(
+                                            pokemonDetailsModel.urlPhoto),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                              return Container(height: 0);
+                            }),
+                      ),
                       Text(
                         viewModel.name,
                         style:

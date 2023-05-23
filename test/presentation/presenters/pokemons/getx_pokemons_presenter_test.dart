@@ -9,8 +9,7 @@ import 'package:pokedex/domain/helpers/helpers.dart';
 import 'package:pokedex/domain/usecases/usecases.dart';
 import 'package:pokedex/presentation/presenters/pokemons/getx_pokemons_presenter.dart';
 import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
-import 'package:pokedex/ui/pages/pokemons/pokemon_result_view_model.dart';
-import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
+import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 
 class LoadPokemonsSpy extends Mock implements LoadPokemons {}
 

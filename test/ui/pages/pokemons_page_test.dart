@@ -8,7 +8,7 @@ import 'package:image_test_utils/image_test_utils.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
 import 'package:pokedex/ui/pages/pokemons/components/components.dart';
-import 'package:pokedex/ui/pages/pokemons/pokemon_result_view_model.dart';
+import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
 
 class PokemonsPresenterSpy extends Mock implements PokemonsPresenter {}
@@ -19,11 +19,15 @@ main() {
   StreamController<bool> isLoadingController;
   StreamController<PokemonsResultViewModel> loadPokemonsController;
   StreamController<String> navigateToController;
+  StreamController<Map<String, PokemonDetailsViewModel>>
+      pokemonDetailsController;
 
   initStreams() {
     isLoadingController = StreamController<bool>();
     loadPokemonsController = StreamController<PokemonsResultViewModel>();
     navigateToController = StreamController<String>();
+    pokemonDetailsController =
+        StreamController<Map<String, PokemonDetailsViewModel>>.broadcast();
   }
 
   mockStreams() {
@@ -33,6 +37,8 @@ main() {
         .thenAnswer((_) => isLoadingController.stream);
     when(presenter.navigateToStream)
         .thenAnswer((_) => navigateToController.stream);
+    when(presenter.pokemonDetailsStream)
+        .thenAnswer((_) => pokemonDetailsController.stream);
   }
 
   PokemonsResultViewModel makePokemons() => PokemonsResultViewModel(pokemons: [
@@ -47,6 +53,63 @@ main() {
           id: '2',
         )
       ]);
+
+  Map<String, PokemonDetailsViewModel> makePokemonsDetails() => {
+        'Pokémon 1': PokemonDetailsViewModel(
+          name: faker.person.firstName(),
+          id: '#001',
+          urlPhoto: faker.internet.httpUrl(),
+          types: [
+            TypeViewModel(
+              name: faker.lorem.word(),
+              order: faker.randomGenerator.integer(100),
+            ),
+            TypeViewModel(
+              name: faker.lorem.word(),
+              order: faker.randomGenerator.integer(100),
+            ),
+          ],
+          weight: faker.randomGenerator.integer(100),
+          height: faker.randomGenerator.integer(100),
+          abilities: [
+            AbilityViewModel(name: faker.lorem.word()),
+            AbilityViewModel(name: faker.lorem.word()),
+          ],
+          hp: faker.randomGenerator.integer(100),
+          attack: faker.randomGenerator.integer(100),
+          defense: faker.randomGenerator.integer(100),
+          specialAttack: faker.randomGenerator.integer(100),
+          specialDefense: faker.randomGenerator.integer(100),
+          speed: faker.randomGenerator.integer(100),
+        ),
+        'Pokémon 2': PokemonDetailsViewModel(
+          name: 'Pokémon 2',
+          id: '#002',
+          urlPhoto: faker.internet.httpUrl(),
+          types: [
+            TypeViewModel(
+              name: faker.lorem.word(),
+              order: faker.randomGenerator.integer(100),
+            ),
+            TypeViewModel(
+              name: faker.lorem.word(),
+              order: faker.randomGenerator.integer(100),
+            ),
+          ],
+          weight: faker.randomGenerator.integer(100),
+          height: faker.randomGenerator.integer(100),
+          abilities: [
+            AbilityViewModel(name: faker.lorem.word()),
+            AbilityViewModel(name: faker.lorem.word()),
+          ],
+          hp: faker.randomGenerator.integer(100),
+          attack: faker.randomGenerator.integer(100),
+          defense: faker.randomGenerator.integer(100),
+          specialAttack: faker.randomGenerator.integer(100),
+          specialDefense: faker.randomGenerator.integer(100),
+          speed: faker.randomGenerator.integer(100),
+        ),
+      };
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = PokemonsPresenterSpy();
@@ -72,6 +135,7 @@ main() {
     isLoadingController.close();
     loadPokemonsController.close();
     navigateToController.close();
+    pokemonDetailsController.close();
   }
 
   tearDown(() {
@@ -216,5 +280,33 @@ main() {
     navigateToController.add(null);
     await tester.pump();
     expect(Get.currentRoute, '/pokemons');
+  });
+
+  testWidgets('Should present details if pokemonDetailsStream success',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.add(makePokemons());
+
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+
+    pokemonDetailsController.add(makePokemonsDetails());
+
+    await provideMockedNetworkImages(() async {
+      await tester.pumpAndSettle();
+    });
+
+    expect(find.text('Algo errado aconteceu. Tente novamente mais tarde.'),
+        findsNothing);
+
+    expect(find.text('Recarregar'), findsNothing);
+
+    expect(find.text('Pokémon 1'), findsOneWidget);
+    expect(find.text('#001'), findsOneWidget);
+
+    expect(find.text('Pokémon 2'), findsOneWidget);
+    expect(find.text('#002'), findsOneWidget);
   });
 }

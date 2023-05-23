@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 
-import '../pokemon_result_view_model.dart';
 import 'components.dart';
 
 class PokemonItens extends StatelessWidget {
