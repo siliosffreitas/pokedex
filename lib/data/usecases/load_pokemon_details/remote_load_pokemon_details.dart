@@ -4,8 +4,9 @@ import 'package:pokedex/data/http/http.dart';
 import 'package:pokedex/data/models/models.dart';
 import 'package:pokedex/domain/entities/entities.dart';
 import 'package:pokedex/domain/helpers/helpers.dart';
+import 'package:pokedex/domain/usecases/usecases.dart';
 
-class RemoteLoadPokemonDetails {
+class RemoteLoadPokemonDetails implements LoadPokemonDetails {
   final HttpClient httpClient;
   final String url;
 
