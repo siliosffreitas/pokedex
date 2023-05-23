@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
@@ -29,6 +30,19 @@ main() {
     when(presenter.isLoadingStream)
         .thenAnswer((_) => isLoadingController.stream);
   }
+
+  PokemonsResultViewModel makePokemons() => PokemonsResultViewModel(pokemons: [
+        PokemonViewModel(
+          name: 'Pokémon 1',
+          url: faker.internet.httpUrl(),
+          id: faker.randomGenerator.integer(100).toString(),
+        ),
+        PokemonViewModel(
+          name: 'Pokémon 2',
+          url: faker.internet.httpUrl(),
+          id: faker.randomGenerator.integer(100).toString(),
+        )
+      ]);
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = PokemonsPresenterSpy();
@@ -95,5 +109,21 @@ main() {
 
     expect(find.text('Recarregar'), findsOneWidget);
     expect(find.text('Pokémon 1'), findsNothing);
+  });
+
+  testWidgets('Should present list if loadPokemonsStreams success',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.add(makePokemons());
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+    expect(find.text('Algo errado aconteceu. Tente novamente mais tarde.'),
+        findsNothing);
+
+    expect(find.text('Recarregar'), findsNothing);
+    expect(find.text('Pokémon 1'), findsWidgets);
+    expect(find.text('Pokémon 2'), findsWidgets);
   });
 }

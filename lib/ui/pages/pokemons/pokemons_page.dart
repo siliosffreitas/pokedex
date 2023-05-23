@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/ui/components/components.dart';
+import 'package:provider/provider.dart';
 
 import 'components/components.dart';
 import 'pokemon_result_view_model.dart';
@@ -119,7 +120,7 @@ class PokemonsPage extends StatelessWidget {
                                 reload: presenter.loadData);
                           }
                           if (snapshot.hasData) {
-                            return PokemonItens();
+                            return PokemonItens(viewModel: snapshot.data);
                           }
                           return Container();
                         }),

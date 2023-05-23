@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../pokemon_view_model.dart';
+
 class PokemonItem extends StatelessWidget {
+  final PokemonViewModel viewModel;
+
+  const PokemonItem({@required this.viewModel});
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -49,7 +55,7 @@ class PokemonItem extends StatelessWidget {
                   ),
                 )),
                 Text(
-                  'Charmander',
+                  viewModel.name,
                   style: TextStyle(fontSize: 10, color: Color(0xFF1D1D1D)),
                 ),
               ],
