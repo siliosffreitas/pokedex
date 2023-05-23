@@ -9,9 +9,7 @@ class LoadNextPage extends StatelessWidget {
     final presenter = Provider.of<PokemonsPresenter>(context);
     return Builder(builder: (context) {
       presenter.loadData();
-      return Container(
-        color: Colors.red,
-      );
+      return Container();
     });
   }
 }
