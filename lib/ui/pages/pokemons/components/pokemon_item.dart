@@ -11,17 +11,25 @@ class PokemonItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final presenter = Provider.of<PokemonsPresenter>(context);
-    return Builder(
-      builder: (BuildContext context) {
-        presenter.loadDetails(viewModel);
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.2),
+            spreadRadius: 1,
+            blurRadius: 2,
+            offset: Offset(0, 0),
+          ),
+        ],
+      ),
+      child: Builder(
+        builder: (BuildContext context) {
+          presenter.loadDetails(viewModel);
 
-        return GestureDetector(
-          onTap: () => presenter.goToPokemonDetail(viewModel.id),
-          child: Card(
-            elevation: 6,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
+          return GestureDetector(
+            onTap: () => presenter.goToPokemonDetail(viewModel.id),
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -92,9 +100,9 @@ class PokemonItem extends StatelessWidget {
                 )
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
