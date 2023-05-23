@@ -86,4 +86,15 @@ main() {
 
     sut.goToPokemonDetail('any_route');
   });
+
+  test('Should change page in second call', () async {
+    await sut.loadData();
+    verify(loadPokemons.load(0)).called(1);
+
+    await sut.loadData();
+    verify(loadPokemons.load(1)).called(1);
+
+    await sut.loadData();
+    verify(loadPokemons.load(2)).called(1);
+  });
 }

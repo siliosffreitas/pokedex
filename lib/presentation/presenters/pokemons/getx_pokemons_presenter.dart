@@ -13,6 +13,8 @@ class GetxPokemonsPresenter extends GetxController
 
   var _pokemons = Rx<PokemonsResultViewModel>();
 
+  int _page = 0;
+
   Stream<PokemonsResultViewModel> get pokemonsStream => _pokemons.stream;
 
   GetxPokemonsPresenter({@required this.loadPokemons});
@@ -20,8 +22,9 @@ class GetxPokemonsPresenter extends GetxController
   Future<void> loadData() async {
     try {
       isLoading = true;
-      final pokemons = await loadPokemons.load(0);
+      final pokemons = await loadPokemons.load(_page);
       _pokemons.value = PokemonsResultViewModel.fromEntity(pokemons);
+      _page++;
     } catch (error) {
       _pokemons.subject.addError(UIError.unexpected.description);
     } finally {
