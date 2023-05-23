@@ -5,8 +5,10 @@ import 'package:mockito/mockito.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pokedex/domain/entities/entities.dart';
+import 'package:pokedex/domain/helpers/helpers.dart';
 import 'package:pokedex/domain/usecases/usecases.dart';
 import 'package:pokedex/presentation/presenters/pokemons/getx_pokemons_presenter.dart';
+import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemon_result_view_model.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
 
@@ -31,15 +33,18 @@ main() {
         ],
       );
 
-  void mockLoadSurveys(PokemonResultEntity data) {
+  void mockLoadPokemons(PokemonResultEntity data) {
     pokemons = data;
     when(loadPokemons.load(any)).thenAnswer((_) async => data);
   }
 
+  void mockLoadPokemonsError() =>
+      when(loadPokemons.load(any)).thenThrow(DomainError.unexpected);
+
   setUp(() {
     loadPokemons = LoadPokemonsSpy();
     sut = GetxPokemonsPresenter(loadPokemons: loadPokemons);
-    mockLoadSurveys(mockValidData());
+    mockLoadPokemons(mockValidData());
   });
 
   test('Should call loadPokemons on loadData', () {
@@ -63,6 +68,15 @@ main() {
             id: null,
           ),
         ]))));
+    sut.loadData();
+  });
+
+  test('Should emit correct events on failure', () {
+    mockLoadPokemonsError();
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    sut.pokemonsStream.listen(null,
+        onError: expectAsync1(
+            (error) => expect(error, UIError.unexpected.description)));
     sut.loadData();
   });
 }
