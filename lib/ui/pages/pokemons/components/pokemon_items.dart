@@ -16,7 +16,9 @@ class PokemonItens extends StatelessWidget {
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
         crossAxisCount: 3,
-        children:
-            viewModel.pokemons.map((v) => PokemonItem(viewModel: v)).toList());
+        children: viewModel.pokemons
+            .map<Widget>((v) => PokemonItem(viewModel: v))
+            .toList()
+              ..add(LoadNextPage()));
   }
 }

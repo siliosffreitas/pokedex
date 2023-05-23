@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_test_utils/image_test_utils.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
+import 'package:pokedex/ui/pages/pokemons/components/components.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemon_result_view_model.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
 
@@ -131,6 +132,7 @@ main() {
     expect(find.text('Recarregar'), findsNothing);
     expect(find.text('Pokémon 1'), findsWidgets);
     expect(find.text('Pokémon 2'), findsWidgets);
+    expect(find.byType(LoadNextPage), findsOneWidget);
   });
 
   testWidgets('Should call loadPokemons on reload button click',
