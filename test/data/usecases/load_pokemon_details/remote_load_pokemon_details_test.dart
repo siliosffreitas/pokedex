@@ -8,15 +8,22 @@ import 'package:test/test.dart';
 class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
-  test('Should call HttpClient with correct values', () async {
-    final httpClient = HttpClientSpy();
-    final url = faker.internet.httpUrl();
-    final sut = RemoteLoadPokemonDetails(httpClient: httpClient, url: url);
-    final pokemon = PokemonEntity(
+  RemoteLoadPokemonDetails sut;
+  HttpClient httpClient;
+  String url;
+  PokemonEntity pokemon;
+
+  setUp(() {
+    httpClient = HttpClientSpy();
+    url = faker.internet.httpUrl();
+    sut = RemoteLoadPokemonDetails(httpClient: httpClient, url: url);
+    pokemon = PokemonEntity(
       url: faker.internet.httpUrl(),
       name: faker.person.name(),
     );
+  });
 
+  test('Should call HttpClient with correct values', () async {
     await sut.load(pokemon);
     verify(httpClient.request(
       url: '$url/${pokemon.name}',
