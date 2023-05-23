@@ -58,8 +58,14 @@ class GetxPokemonsPresenter extends GetxController
     try {
       final details = await loadPokemonDetails.load(pokemon.toEntity());
       final viewModel = PokemonDetailsViewModel.fromEntity(details);
-      final map = {pokemon.name: viewModel};
-      _details.value = map;
+      if (_details.value == null || _details.value.isEmpty) {
+        final map = {pokemon.name: viewModel};
+        _details.value = map;
+      } else {
+        final map = {pokemon.name: viewModel}
+          ..addEntries(_details.value.entries);
+        _details.value = map;
+      }
     } catch (error) {
       _details.subject.addError(UIError.unexpected.description);
     }

@@ -27,17 +27,17 @@ main() {
         pokemons: [
           PokemonEntity(
             url: faker.internet.httpUrl(),
-            name: faker.person.name(),
+            name: faker.lorem.word(),
           ),
           PokemonEntity(
             url: faker.internet.httpUrl(),
-            name: faker.person.name(),
+            name: faker.lorem.word(),
           ),
         ],
       );
 
   PokemonDetailsEntity mockValidDataDetails() => PokemonDetailsEntity(
-        name: faker.person.name(),
+        name: faker.lorem.word(),
         id: 1,
         urlPhoto: faker.internet.httpUrl(),
         types: [
@@ -220,5 +220,68 @@ main() {
         onError: expectAsync1(
             (error) => expect(error, UIError.unexpected.description)));
     sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+  });
+
+  test('Should mantain previous details if receive new details', () async {
+    await sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+
+    sut.pokemonDetailsStream.listen(expectAsync1(
+        (pokemonsDetailsReturned) => expect(pokemonsDetailsReturned, {
+              pokemons.pokemons[0].name: PokemonDetailsViewModel(
+                name: details.name,
+                id: '#001',
+                urlPhoto: details.urlPhoto,
+                types: [
+                  TypeViewModel(
+                    order: details.types[0].order,
+                    name: details.types[0].name,
+                  ),
+                  TypeViewModel(
+                    order: details.types[1].order,
+                    name: details.types[1].name,
+                  ),
+                ],
+                weight: details.weight,
+                height: details.height,
+                abilities: [
+                  AbilityViewModel(name: details.abilities[0].name),
+                  AbilityViewModel(name: details.abilities[1].name),
+                ],
+                hp: details.hp,
+                attack: details.attack,
+                defense: details.defense,
+                specialAttack: details.specialAttack,
+                specialDefense: details.specialDefense,
+                speed: details.speed,
+              ),
+              pokemons.pokemons[1].name: PokemonDetailsViewModel(
+                name: details.name,
+                id: '#001',
+                urlPhoto: details.urlPhoto,
+                types: [
+                  TypeViewModel(
+                    order: details.types[0].order,
+                    name: details.types[0].name,
+                  ),
+                  TypeViewModel(
+                    order: details.types[1].order,
+                    name: details.types[1].name,
+                  ),
+                ],
+                weight: details.weight,
+                height: details.height,
+                abilities: [
+                  AbilityViewModel(name: details.abilities[0].name),
+                  AbilityViewModel(name: details.abilities[1].name),
+                ],
+                hp: details.hp,
+                attack: details.attack,
+                defense: details.defense,
+                specialAttack: details.specialAttack,
+                specialDefense: details.specialDefense,
+                speed: details.speed,
+              ),
+            })));
+    await sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]));
   });
 }
