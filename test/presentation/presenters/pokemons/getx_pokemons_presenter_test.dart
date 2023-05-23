@@ -20,6 +20,7 @@ main() {
   LoadPokemons loadPokemons;
   LoadPokemonDetails loadPokemonDetails;
   PokemonResultEntity pokemons;
+  PokemonDetailsEntity details;
 
   PokemonResultEntity mockValidData() => PokemonResultEntity(
         total: faker.randomGenerator.integer(100),
@@ -35,9 +36,42 @@ main() {
         ],
       );
 
+  PokemonDetailsEntity mockValidDataDetails() => PokemonDetailsEntity(
+        name: faker.person.name(),
+        id: 1,
+        urlPhoto: faker.internet.httpUrl(),
+        types: [
+          TypeEntity(
+            name: faker.person.name(),
+            order: faker.randomGenerator.integer(100),
+          ),
+          TypeEntity(
+            name: faker.person.name(),
+            order: faker.randomGenerator.integer(100),
+          ),
+        ],
+        weight: faker.randomGenerator.integer(100),
+        height: faker.randomGenerator.integer(100),
+        abilities: [
+          AbilityEntity(name: faker.person.name()),
+          AbilityEntity(name: faker.person.name()),
+        ],
+        hp: faker.randomGenerator.integer(100),
+        attack: faker.randomGenerator.integer(100),
+        defense: faker.randomGenerator.integer(100),
+        specialAttack: faker.randomGenerator.integer(100),
+        specialDefense: faker.randomGenerator.integer(100),
+        speed: faker.randomGenerator.integer(100),
+      );
+
   void mockLoadPokemons(PokemonResultEntity data) {
     pokemons = data;
     when(loadPokemons.load(any)).thenAnswer((_) async => data);
+  }
+
+  void mockLoadPokemonDetails(PokemonDetailsEntity data) {
+    details = data;
+    when(loadPokemonDetails.load(any)).thenAnswer((_) async => data);
   }
 
   void mockLoadPokemonsError() =>
@@ -51,6 +85,7 @@ main() {
       loadPokemonDetails: loadPokemonDetails,
     );
     mockLoadPokemons(mockValidData());
+    mockLoadPokemonDetails(mockValidDataDetails());
   });
 
   test('Should call loadPokemons on loadData', () {
@@ -137,13 +172,42 @@ main() {
     await sut.loadData();
   });
 
-  test('Should call loadPokemons on loadData', () {
-    sut.loadData();
-    verify(loadPokemons.load(0)).called(1);
-  });
-
   test('Should call loadPokemonDetails on pokemon load', () {
     sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
     verify(loadPokemonDetails.load(pokemons.pokemons[0])).called(1);
+  });
+
+  test('Should emit correct events on details success', () {
+    sut.pokemonDetailsStream.listen(expectAsync1(
+        (pokemonsDetailsReturned) => expect(pokemonsDetailsReturned, {
+              pokemons.pokemons[0].name: PokemonDetailsViewModel(
+                name: details.name,
+                id: '#001',
+                urlPhoto: details.urlPhoto,
+                types: [
+                  TypeViewModel(
+                    order: details.types[0].order,
+                    name: details.types[0].name,
+                  ),
+                  TypeViewModel(
+                    order: details.types[1].order,
+                    name: details.types[1].name,
+                  ),
+                ],
+                weight: details.weight,
+                height: details.height,
+                abilities: [
+                  AbilityViewModel(name: details.abilities[0].name),
+                  AbilityViewModel(name: details.abilities[1].name),
+                ],
+                hp: details.hp,
+                attack: details.attack,
+                defense: details.defense,
+                specialAttack: details.specialAttack,
+                specialDefense: details.specialDefense,
+                speed: details.speed,
+              )
+            })));
+    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
   });
 }

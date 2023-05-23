@@ -14,12 +14,14 @@ class GetxPokemonsPresenter extends GetxController
 
   var _pokemons = Rx<PokemonsResultViewModel>();
 
+  var _details = Rx<Map<String, PokemonDetailsViewModel>>();
+
   int _page = 0;
 
   Stream<PokemonsResultViewModel> get pokemonsStream => _pokemons.stream;
 
   Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream =>
-      throw UnimplementedError();
+      _details.stream;
 
   GetxPokemonsPresenter({
     @required this.loadPokemons,
@@ -53,6 +55,9 @@ class GetxPokemonsPresenter extends GetxController
   }
 
   Future<void> loadDetails(PokemonViewModel pokemon) async {
-    loadPokemonDetails.load(pokemon.toEntity());
+    final details = await loadPokemonDetails.load(pokemon.toEntity());
+    final viewModel = PokemonDetailsViewModel.fromEntity(details);
+    final map = {pokemon.name: viewModel};
+    _details.value = map;
   }
 }
