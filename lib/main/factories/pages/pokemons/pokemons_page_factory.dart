@@ -1,0 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:pokedex/main/factories/pages/pokemons/surveys_presenter_factory.dart';
+import 'package:pokedex/ui/pages/pokemons/pokemons_page.dart';
+
+Widget makePokemonsPage() =>
+    PokemonsPage(presenter: makeGetxSurveysPresenter());
