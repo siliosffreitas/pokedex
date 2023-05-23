@@ -97,4 +97,37 @@ main() {
     await sut.loadData();
     verify(loadPokemons.load(2)).called(1);
   });
+
+  test('Should append result in second page', () async {
+    await sut.loadData();
+    sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+          pokemonsReturned,
+          PokemonsResultViewModel(
+            pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: pokemons.pokemons[0].name,
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[1].url,
+                name: pokemons.pokemons[1].name,
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: pokemons.pokemons[0].name,
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[1].url,
+                name: pokemons.pokemons[1].name,
+                id: null,
+              ),
+            ],
+          ),
+        )));
+
+    await sut.loadData();
+  });
 }

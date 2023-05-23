@@ -23,7 +23,17 @@ class GetxPokemonsPresenter extends GetxController
     try {
       isLoading = true;
       final pokemons = await loadPokemons.load(_page);
-      _pokemons.value = PokemonsResultViewModel.fromEntity(pokemons);
+      final viewModel = PokemonsResultViewModel.fromEntity(pokemons);
+
+      if (_pokemons.value == null) {
+        _pokemons.value = viewModel;
+      } else {
+        final p = <PokemonViewModel>[]
+          ..addAll(_pokemons.value.pokemons)
+          ..addAll(viewModel.pokemons);
+        // _pokemons.value = null;
+        _pokemons.value = PokemonsResultViewModel(pokemons: p);
+      }
       _page++;
     } catch (error) {
       _pokemons.subject.addError(UIError.unexpected.description);
