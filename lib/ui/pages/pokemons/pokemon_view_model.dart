@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:pokedex/domain/entities/entities.dart';
 
 class PokemonViewModel {
   final String id;
@@ -11,12 +10,4 @@ class PokemonViewModel {
     @required this.url,
     @required this.name,
   });
-
-  factory PokemonViewModel.fromEntity(PokemonEntity entity) {
-    return PokemonViewModel(
-      id: null,
-      name: entity.name,
-      url: entity.url,
-    );
-  }
 }

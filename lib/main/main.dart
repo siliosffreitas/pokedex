@@ -13,10 +13,15 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    final primaryColor = Color(0xFFDC0A2D);
 
     return GetMaterialApp(
       title: 'Pokédex',
-      theme: makeAppTheme(),
+      theme: ThemeData(
+          primaryColor: primaryColor,
+          iconTheme: IconThemeData(
+            color: primaryColor,
+          )),
       debugShowCheckedModeBanner: false,
       initialRoute: '/pokemons',
       getPages: [
