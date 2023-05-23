@@ -77,6 +77,9 @@ main() {
   void mockLoadPokemonsError() =>
       when(loadPokemons.load(any)).thenThrow(DomainError.unexpected);
 
+  void mockLoadDetailsError() =>
+      when(loadPokemonDetails.load(any)).thenThrow(DomainError.unexpected);
+
   setUp(() {
     loadPokemons = LoadPokemonsSpy();
     loadPokemonDetails = LoadPokemonDetailsSpy();
@@ -208,6 +211,14 @@ main() {
                 speed: details.speed,
               )
             })));
+    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+  });
+
+  test('Should emit correct events on details failure', () {
+    mockLoadDetailsError();
+    sut.pokemonDetailsStream.listen(null,
+        onError: expectAsync1(
+            (error) => expect(error, UIError.unexpected.description)));
     sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
   });
 }
