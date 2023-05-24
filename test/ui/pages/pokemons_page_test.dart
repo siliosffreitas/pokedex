@@ -366,4 +366,15 @@ main() {
 
     verify(presenter.search(termSearch)).called(1);
   });
+
+  testWidgets('Should show the searched term', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    final termSearch = faker.lorem.word();
+    searchController.add(termSearch);
+    await tester.pump();
+
+    expect(tester.widget<TextField>(find.byType(TextField)).controller.text,
+        termSearch);
+  });
 }

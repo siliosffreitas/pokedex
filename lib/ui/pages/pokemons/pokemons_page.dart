@@ -74,6 +74,17 @@ class PokemonsPage extends StatelessWidget {
                                 child: StreamBuilder<String>(
                                     stream: presenter.searchStream,
                                     builder: (context, snapshot) {
+                                      final TextEditingController _controller =
+                                          TextEditingController();
+
+                                      if (snapshot.data != null) {
+                                        _controller.text = snapshot.data;
+                                        _controller.selection =
+                                            TextSelection.collapsed(
+                                                offset:
+                                                    _controller.text.length);
+                                      }
+
                                       return Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -82,6 +93,7 @@ class PokemonsPage extends StatelessWidget {
                                           SizedBox(height: 8),
                                           Expanded(
                                             child: TextFormField(
+                                              controller: _controller,
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
                                                 hintText: 'Search',
