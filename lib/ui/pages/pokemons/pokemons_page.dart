@@ -98,10 +98,8 @@ class PokemonsPage extends StatelessWidget {
                                                 border: InputBorder.none,
                                                 hintText: 'Search',
                                                 hintStyle: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                                    fontSize: 10,
+                                                    color: Color(0xFF666666)),
                                                 enabledBorder:
                                                     UnderlineInputBorder(
                                                   borderSide: BorderSide(
@@ -115,21 +113,10 @@ class PokemonsPage extends StatelessWidget {
                                                                 .transparent)),
                                               ),
                                               style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                                  fontSize: 10,
+                                                  color: Color(0xFF666666)),
                                               onChanged: presenter.search,
-                                            )
-
-                                            // Text(
-                                            //   'Search',
-                                            //   style: TextStyle(
-                                            //       fontSize: 10,
-                                            //       color: Color(0xFF666666)),
-                                            // )
-
-                                            ,
+                                            ),
                                           ),
                                           if (snapshot.hasData &&
                                               snapshot.data.isNotEmpty)
