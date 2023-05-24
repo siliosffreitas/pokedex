@@ -6,10 +6,15 @@ abstract class PokemonsPresenter {
   Stream<PokemonsResultViewModel> get pokemonsStream;
   Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream;
   Stream<String> get navigateToStream;
+  Stream<String> get searchStream;
 
   Future<void> loadData();
 
   void goToPokemonDetail(String id);
 
   Future<void> loadDetails(String pokemonName);
+
+  void clearSearch();
+
+  void search(String term);
 }

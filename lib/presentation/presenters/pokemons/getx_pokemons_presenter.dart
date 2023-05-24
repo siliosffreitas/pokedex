@@ -12,13 +12,17 @@ class GetxPokemonsPresenter extends GetxController
   final LoadPokemons loadPokemons;
   final LoadPokemonDetails loadPokemonDetails;
 
-  var _pokemons = Rx<PokemonsResultViewModel>();
+  var _foundedsPokemons = Rx<PokemonsResultViewModel>();
+  PokemonsResultViewModel _allPokemons;
 
+  var _search = RxString();
   var _details = Rx<Map<String, PokemonDetailsViewModel>>();
 
   int _page = 0;
 
-  Stream<PokemonsResultViewModel> get pokemonsStream => _pokemons.stream;
+  Stream<PokemonsResultViewModel> get pokemonsStream =>
+      _foundedsPokemons.stream;
+  Stream<String> get searchStream => _search.stream;
 
   Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream =>
       _details.stream;
@@ -34,17 +38,20 @@ class GetxPokemonsPresenter extends GetxController
       final pokemons = await loadPokemons.load(_page);
       final viewModel = PokemonsResultViewModel.fromEntity(pokemons);
 
-      if (_pokemons.value == null) {
-        _pokemons.value = viewModel;
+      if (_foundedsPokemons.value == null) {
+        _foundedsPokemons.value = viewModel;
+        _allPokemons = viewModel;
       } else {
         final p = <PokemonViewModel>[]
-          ..addAll(_pokemons.value.pokemons)
+          ..addAll(_foundedsPokemons.value.pokemons)
           ..addAll(viewModel.pokemons);
-        _pokemons.value = PokemonsResultViewModel(pokemons: p);
+        final result = PokemonsResultViewModel(pokemons: p);
+        _foundedsPokemons.value = result;
+        _allPokemons = result;
       }
       _page++;
     } catch (error) {
-      _pokemons.subject.addError(UIError.unexpected.description);
+      _foundedsPokemons.subject.addError(UIError.unexpected.description);
     } finally {
       isLoading = false;
     }
@@ -70,5 +77,32 @@ class GetxPokemonsPresenter extends GetxController
     } catch (error) {
       _details.subject.addError(UIError.unexpected.description);
     }
+  }
+
+  void clearSearch() {
+    _search.value = null;
+  }
+
+  void search(String term) {
+    _search.value = term;
+    if (term?.isNotEmpty == true) {
+      final p = <PokemonViewModel>[]
+        ..addAll(_allPokemons.pokemons.where((pokemon) =>
+            pokemon.name.toLowerCase().contains(term.toLowerCase()) ||
+            _findPokemonNameByCode(term.toLowerCase()).contains(pokemon.name)));
+      _foundedsPokemons.value = PokemonsResultViewModel(pokemons: p);
+    } else {
+      _foundedsPokemons.value = _allPokemons;
+    }
+  }
+
+  List<String> _findPokemonNameByCode(String code) {
+    if (_details.value != null) {
+      final pokemonsWithCodeStartinWith = _details.value.values.where(
+          (PokemonDetailsViewModel element) => element.id.contains(code));
+
+      return pokemonsWithCodeStartinWith.map((e) => e.name).toList();
+    }
+    return [];
   }
 }

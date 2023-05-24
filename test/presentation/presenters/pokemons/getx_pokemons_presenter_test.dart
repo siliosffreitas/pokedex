@@ -21,6 +21,7 @@ main() {
   LoadPokemonDetails loadPokemonDetails;
   PokemonResultEntity pokemons;
   PokemonDetailsEntity details;
+  String search;
 
   PokemonResultEntity mockValidData() => PokemonResultEntity(
         total: faker.randomGenerator.integer(100),
@@ -89,6 +90,7 @@ main() {
     );
     mockLoadPokemons(mockValidData());
     mockLoadPokemonDetails(mockValidDataDetails());
+    search = faker.lorem.word();
   });
 
   test('Should call loadPokemons on loadData', () {
@@ -286,5 +288,164 @@ main() {
             })));
     await sut
         .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]).name);
+  });
+
+  group('search', () {
+    test('Should show X button if search is inputed or not', () async {
+      await sut.loadData();
+      expectLater(sut.searchStream, emitsInOrder([search, null, search, '']));
+      sut.search(search);
+      sut.search(null);
+      sut.search(search);
+      sut.search('');
+    });
+
+    test('Should clear search on call clearSearch', () async {
+      await sut.loadData();
+      expectLater(sut.searchStream, emitsInOrder([search, null, '', null]));
+      sut.search(search);
+      sut.clearSearch();
+      sut.search('');
+      sut.clearSearch();
+    });
+
+    group('by name', () {
+      test('Should return only pokemons that matchs in name', () async {
+        await sut.loadData();
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+            ]))));
+        sut.search('Nidoqueen');
+      });
+
+      test('Should return empty list if none founded', () async {
+        await sut.loadData();
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) =>
+            expect(pokemonsReturned, PokemonsResultViewModel(pokemons: []))));
+        sut.search('no_pokemon_name');
+      });
+
+      test('Should return only pokemons that partial matchs in name', () async {
+        await sut.loadData();
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+            ]))));
+        sut.search('Nidoq');
+      });
+
+      test(
+          'Should return only pokemons that partial matchs in name ignoring case',
+          () async {
+        await sut.loadData();
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+            ]))));
+        sut.search('nidoq');
+      });
+
+      test('Should return all pokemons search is null', () async {
+        await sut.loadData();
+        sut.search('Nidoqueen');
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[1].url,
+                name: 'Nidoking',
+                id: null,
+              ),
+            ]))));
+        sut.search(null);
+      });
+
+      test('Should return all pokemons search is after filter', () async {
+        await sut.loadData();
+        sut.search('Nidoqueen');
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[1].url,
+                name: 'Nidoking',
+                id: null,
+              ),
+            ]))));
+        sut.search('Nido');
+      });
+
+      test('Should return all pokemons search is empty', () async {
+        await sut.loadData();
+        sut.search('Nidoqueen');
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[1].url,
+                name: 'Nidoking',
+                id: null,
+              ),
+            ]))));
+        sut.search('');
+      });
+    });
+
+    group('by code', () {
+      test('Should return only pokemons that matchs in code', () async {
+        await sut.loadData();
+        await sut.loadDetails(
+            PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+            ]))));
+        sut.search('001');
+      });
+    });
   });
 }

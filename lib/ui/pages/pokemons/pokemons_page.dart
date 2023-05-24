@@ -71,22 +71,63 @@ class PokemonsPage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 padding: EdgeInsets.symmetric(horizontal: 8),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.search, size: 16),
-                                    SizedBox(height: 8),
-                                    Expanded(
-                                      child: Text(
-                                        'Search',
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            color: Color(0xFF666666)),
-                                      ),
-                                    ),
-                                    Icon(Icons.close, size: 16),
-                                  ],
-                                ),
+                                child: StreamBuilder<String>(
+                                    stream: presenter.searchStream,
+                                    builder: (context, snapshot) {
+                                      final TextEditingController _controller =
+                                          TextEditingController();
+
+                                      if (snapshot.data != null) {
+                                        _controller.text = snapshot.data;
+                                        _controller.selection =
+                                            TextSelection.collapsed(
+                                                offset:
+                                                    _controller.text.length);
+                                      }
+
+                                      return Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.search, size: 16),
+                                          SizedBox(height: 8),
+                                          Expanded(
+                                            child: TextFormField(
+                                              controller: _controller,
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'Search',
+                                                hintStyle: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFF666666)),
+                                                enabledBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Colors.transparent,
+                                                  ),
+                                                ),
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color: Colors
+                                                                .transparent)),
+                                              ),
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Color(0xFF666666)),
+                                              onChanged: presenter.search,
+                                            ),
+                                          ),
+                                          if (snapshot.hasData &&
+                                              snapshot.data.isNotEmpty)
+                                            GestureDetector(
+                                              onTap: presenter.clearSearch,
+                                              child:
+                                                  Icon(Icons.close, size: 16),
+                                            ),
+                                        ],
+                                      );
+                                    }),
                               ),
                             ),
                             SizedBox(width: 16),
