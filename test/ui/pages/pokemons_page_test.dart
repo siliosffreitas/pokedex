@@ -19,6 +19,7 @@ main() {
   StreamController<bool> isLoadingController;
   StreamController<PokemonsResultViewModel> loadPokemonsController;
   StreamController<String> navigateToController;
+  StreamController<String> searchController;
   StreamController<Map<String, PokemonDetailsViewModel>>
       pokemonDetailsController;
 
@@ -26,6 +27,8 @@ main() {
     isLoadingController = StreamController<bool>();
     loadPokemonsController = StreamController<PokemonsResultViewModel>();
     navigateToController = StreamController<String>();
+    searchController = StreamController<String>();
+
     pokemonDetailsController =
         StreamController<Map<String, PokemonDetailsViewModel>>.broadcast();
   }
@@ -39,6 +42,7 @@ main() {
         .thenAnswer((_) => navigateToController.stream);
     when(presenter.pokemonDetailsStream)
         .thenAnswer((_) => pokemonDetailsController.stream);
+    when(presenter.searchStream).thenAnswer((_) => searchController.stream);
   }
 
   PokemonsResultViewModel makePokemons() => PokemonsResultViewModel(pokemons: [
@@ -136,6 +140,7 @@ main() {
     loadPokemonsController.close();
     navigateToController.close();
     pokemonDetailsController.close();
+    searchController.close();
   }
 
   tearDown(() {
@@ -308,5 +313,31 @@ main() {
 
     expect(find.text('Pokémon 2'), findsOneWidget);
     expect(find.text('#002'), findsOneWidget);
+  });
+
+  testWidgets('Should show clean search button', (WidgetTester tester) async {
+    final search = faker.randomGenerator.string(10);
+    await loadPage(tester);
+
+    await tester.pumpAndSettle();
+
+    expect(find.bySemanticsLabel('Search'), findsOneWidget);
+    expect(find.byIcon(Icons.close), findsNothing);
+
+    searchController.add(search);
+    await tester.pumpAndSettle();
+    expect(find.byIcon(Icons.close), findsOneWidget);
+
+    searchController.add(null);
+    await tester.pumpAndSettle();
+    expect(find.byIcon(Icons.close), findsNothing);
+
+    searchController.add(search);
+    await tester.pumpAndSettle();
+    expect(find.byIcon(Icons.close), findsOneWidget);
+
+    searchController.add('');
+    await tester.pumpAndSettle();
+    expect(find.byIcon(Icons.close), findsNothing);
   });
 }

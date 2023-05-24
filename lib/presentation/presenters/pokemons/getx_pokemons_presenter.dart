@@ -19,6 +19,7 @@ class GetxPokemonsPresenter extends GetxController
   int _page = 0;
 
   Stream<PokemonsResultViewModel> get pokemonsStream => _pokemons.stream;
+  Stream<String> get searchStream => throw UnimplementedError();
 
   Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream =>
       _details.stream;
