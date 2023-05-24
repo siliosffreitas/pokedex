@@ -23,7 +23,7 @@ class PokemonDetailsPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.green,
-      body: SafeArea(child: Builder(
+      body: Builder(
         builder: (BuildContext context) {
           return StreamBuilder<PokemonDetailsViewModel>(
               stream: presenter.pokemonDetailsStream,
@@ -45,7 +45,7 @@ class PokemonDetailsPage extends StatelessWidget {
                 return Container();
               });
         },
-      )),
+      ),
     );
   }
 }
