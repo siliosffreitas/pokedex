@@ -176,7 +176,7 @@ main() {
   });
 
   test('Should call loadPokemonDetails on pokemon load', () {
-    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
     verify(loadPokemonDetails.loadByPokemon(pokemons.pokemons[0].name))
         .called(1);
   });
@@ -212,7 +212,7 @@ main() {
                 speed: '${details.speed}',
               )
             })));
-    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
   });
 
   test('Should emit correct events on details failure', () {
@@ -220,11 +220,12 @@ main() {
     sut.pokemonDetailsStream.listen(null,
         onError: expectAsync1(
             (error) => expect(error, UIError.unexpected.description)));
-    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
   });
 
   test('Should mantain previous details if receive new details', () async {
-    await sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+    await sut
+        .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
 
     sut.pokemonDetailsStream.listen(expectAsync1(
         (pokemonsDetailsReturned) => expect(pokemonsDetailsReturned, {
@@ -283,6 +284,7 @@ main() {
                 speed: '${details.speed}',
               ),
             })));
-    await sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]));
+    await sut
+        .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]).name);
   });
 }

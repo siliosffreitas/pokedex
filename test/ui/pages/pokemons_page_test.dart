@@ -216,8 +216,8 @@ main() {
     expect(find.text('Pokémon 2'), findsWidgets);
     expect(find.byType(LoadNextPage), findsOneWidget);
 
-    verify(presenter.loadDetails(result.pokemons[0])).called(1);
-    verify(presenter.loadDetails(result.pokemons[1])).called(1);
+    verify(presenter.loadDetails(result.pokemons[0].name)).called(1);
+    verify(presenter.loadDetails(result.pokemons[1].name)).called(1);
   });
 
   testWidgets('Should call loadPokemons on LoadNextPage init',

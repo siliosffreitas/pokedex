@@ -26,7 +26,7 @@ class PokemonItem extends StatelessWidget {
       ),
       child: Builder(
         builder: (BuildContext context) {
-          presenter.loadDetails(viewModel);
+          presenter.loadDetails(viewModel.name);
 
           return GestureDetector(
             onTap: () => presenter.goToPokemonDetail(viewModel.id),

@@ -54,16 +54,15 @@ class GetxPokemonsPresenter extends GetxController
     navigateTo = '/pokemon/$id';
   }
 
-  Future<void> loadDetails(PokemonViewModel pokemon) async {
+  Future<void> loadDetails(String pokemonName) async {
     try {
-      final details =
-          await loadPokemonDetails.loadByPokemon(pokemon.toEntity().name);
+      final details = await loadPokemonDetails.loadByPokemon(pokemonName);
       final viewModel = PokemonDetailsViewModel.fromEntity(details);
       if (_details.value == null || _details.value.isEmpty) {
-        final map = {pokemon.name: viewModel};
+        final map = {pokemonName: viewModel};
         _details.value = map;
       } else {
-        final map = {pokemon.name: viewModel}
+        final map = {pokemonName: viewModel}
           ..addEntries(_details.value.entries);
         _details.value = map;
       }
