@@ -50,8 +50,8 @@ class GetxPokemonsPresenter extends GetxController
     }
   }
 
-  void goToPokemonDetail(String id) {
-    navigateTo = '/pokemon/$id';
+  void goToPokemonDetail(String name) {
+    navigateTo = '/pokemon/$name';
   }
 
   Future<void> loadDetails(String pokemonName) async {

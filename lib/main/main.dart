@@ -34,7 +34,7 @@ class App extends StatelessWidget {
         )),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/pokemon/nidoqueen',
+      initialRoute: '/pokemons',
       getPages: [
         GetPage(
             name: '/pokemons',

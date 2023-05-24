@@ -256,7 +256,7 @@ main() {
     final button = find.text('Pokémon 1');
     await tester.tap(button);
     await tester.pump();
-    verify(presenter.goToPokemonDetail('1')).called(1);
+    verify(presenter.goToPokemonDetail('Pokémon 1')).called(1);
   });
 
   testWidgets('Should change page', (WidgetTester tester) async {

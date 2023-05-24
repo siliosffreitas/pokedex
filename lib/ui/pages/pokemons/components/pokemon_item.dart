@@ -29,7 +29,7 @@ class PokemonItem extends StatelessWidget {
           presenter.loadDetails(viewModel.name);
 
           return GestureDetector(
-            onTap: () => presenter.goToPokemonDetail(viewModel.id),
+            onTap: () => presenter.goToPokemonDetail(viewModel.name),
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
