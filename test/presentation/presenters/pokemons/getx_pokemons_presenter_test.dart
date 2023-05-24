@@ -466,5 +466,26 @@ main() {
       sut.changeSorting(UISorting.name);
       sut.changeSorting(UISorting.number);
     });
+
+    test('Should sort by name', () async {
+      await sut.loadData();
+
+      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+          pokemonsReturned,
+          PokemonsResultViewModel(pokemons: [
+            PokemonViewModel(
+              url: pokemons.pokemons[1].url,
+              name: 'Nidoking',
+              id: null,
+            ),
+            PokemonViewModel(
+              url: pokemons.pokemons[0].url,
+              name: 'Nidoqueen',
+              id: null,
+            ),
+          ]))));
+
+      sut.changeSorting(UISorting.name);
+    });
   });
 }

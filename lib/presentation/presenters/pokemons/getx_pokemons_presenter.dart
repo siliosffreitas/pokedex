@@ -114,5 +114,12 @@ class GetxPokemonsPresenter extends GetxController
 
   void changeSorting(UISorting newSorting) {
     _sorting.value = newSorting;
+
+    if (newSorting == UISorting.name) {
+      final p = <PokemonViewModel>[]..addAll(_foundedsPokemons.value.pokemons);
+      p.sort((a, b) => a.name.compareTo(b.name));
+
+      _foundedsPokemons.value = PokemonsResultViewModel(pokemons: p);
+    }
   }
 }
