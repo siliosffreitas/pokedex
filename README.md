@@ -6,7 +6,7 @@ Implementação de uma Pokédex, o layout e a documentação da api foram defini
 
 Por escolha, decidi por desenvolver o app usando a versão 1.20.4 (sem nullsafe) apenas para demonstrar o conhecimento em arquitetura limpa e TDD, (por isso as bibliotecas externas estão com versões travadas também) mas havendo mais tempo é perfeitamente possível uma atualização na versão do projeto. Sugiro ao revisor utilizar o FVM (https://fvm.app)
 
-Pelo fato de ter sido feito com TDD a cobertura de teste está em **100%**, como pode ser visto em coverage/html/index.html ou rodando seguintes comandos:
+Pelo fato de ter sido feito com TDD a cobertura de teste está em **100%**, como pode ser visto em <a href="coverage/html/index.html">**coverage/html/index.html**</a> ou rodando seguintes comandos:
 
 `flutter test --coverage`
 
