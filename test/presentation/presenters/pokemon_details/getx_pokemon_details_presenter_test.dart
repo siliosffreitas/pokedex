@@ -56,7 +56,7 @@ void main() {
 
   setUp(() {
     loadPokemonDetails = LoadPokemonDetailsSpy();
-    pokemonName = faker.lorem.word();
+    pokemonName = 'Bulbasaur';
     sut = GetxPokemonDetailsPresenter(
       loadPokemonDetails: loadPokemonDetails,
       pokemonName: pokemonName,
@@ -66,7 +66,8 @@ void main() {
 
   test('Should call loadPokemonDetails on loadData', () {
     sut.loadData();
-    verify(loadPokemonDetails.loadByPokemon(pokemonName)).called(1);
+    verify(loadPokemonDetails.loadByPokemon(pokemonName.toLowerCase()))
+        .called(1);
   });
 
   test('Should emit correct events on success', () {

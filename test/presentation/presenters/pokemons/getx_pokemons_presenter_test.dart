@@ -27,17 +27,17 @@ main() {
         pokemons: [
           PokemonEntity(
             url: faker.internet.httpUrl(),
-            name: faker.lorem.word(),
+            name: 'nidoqueen',
           ),
           PokemonEntity(
             url: faker.internet.httpUrl(),
-            name: faker.lorem.word(),
+            name: 'nidoking',
           ),
         ],
       );
 
   PokemonDetailsEntity mockValidDataDetails() => PokemonDetailsEntity(
-        name: faker.lorem.word(),
+        name: 'nidoqueen',
         id: 1,
         urlPhoto: faker.internet.httpUrl(),
         types: [
@@ -103,12 +103,12 @@ main() {
         PokemonsResultViewModel(pokemons: [
           PokemonViewModel(
             url: pokemons.pokemons[0].url,
-            name: pokemons.pokemons[0].name,
+            name: 'Nidoqueen',
             id: null,
           ),
           PokemonViewModel(
             url: pokemons.pokemons[1].url,
-            name: pokemons.pokemons[1].name,
+            name: 'Nidoking',
             id: null,
           ),
         ]))));
@@ -150,22 +150,22 @@ main() {
             pokemons: [
               PokemonViewModel(
                 url: pokemons.pokemons[0].url,
-                name: pokemons.pokemons[0].name,
+                name: 'Nidoqueen',
                 id: null,
               ),
               PokemonViewModel(
                 url: pokemons.pokemons[1].url,
-                name: pokemons.pokemons[1].name,
+                name: 'Nidoking',
                 id: null,
               ),
               PokemonViewModel(
                 url: pokemons.pokemons[0].url,
-                name: pokemons.pokemons[0].name,
+                name: 'Nidoqueen',
                 id: null,
               ),
               PokemonViewModel(
                 url: pokemons.pokemons[1].url,
-                name: pokemons.pokemons[1].name,
+                name: 'Nidoking',
                 id: null,
               ),
             ],
@@ -184,8 +184,8 @@ main() {
   test('Should emit correct events on details success', () {
     sut.pokemonDetailsStream.listen(expectAsync1(
         (pokemonsDetailsReturned) => expect(pokemonsDetailsReturned, {
-              pokemons.pokemons[0].name: PokemonDetailsViewModel(
-                name: details.name,
+              'Nidoqueen': PokemonDetailsViewModel(
+                name: 'Nidoqueen',
                 id: '#001',
                 urlPhoto: details.urlPhoto,
                 types: [
@@ -229,8 +229,8 @@ main() {
 
     sut.pokemonDetailsStream.listen(expectAsync1(
         (pokemonsDetailsReturned) => expect(pokemonsDetailsReturned, {
-              pokemons.pokemons[0].name: PokemonDetailsViewModel(
-                name: details.name,
+              'Nidoqueen': PokemonDetailsViewModel(
+                name: 'Nidoqueen',
                 id: '#001',
                 urlPhoto: details.urlPhoto,
                 types: [
@@ -256,8 +256,8 @@ main() {
                 specialDefense: '060',
                 speed: '070',
               ),
-              pokemons.pokemons[1].name: PokemonDetailsViewModel(
-                name: details.name,
+              'Nidoking': PokemonDetailsViewModel(
+                name: 'Nidoqueen',
                 id: '#001',
                 urlPhoto: details.urlPhoto,
                 types: [

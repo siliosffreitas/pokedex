@@ -56,7 +56,8 @@ class GetxPokemonsPresenter extends GetxController
 
   Future<void> loadDetails(String pokemonName) async {
     try {
-      final details = await loadPokemonDetails.loadByPokemon(pokemonName);
+      final details =
+          await loadPokemonDetails.loadByPokemon(pokemonName.toLowerCase());
       final viewModel = PokemonDetailsViewModel.fromEntity(details);
       if (_details.value == null || _details.value.isEmpty) {
         final map = {pokemonName: viewModel};

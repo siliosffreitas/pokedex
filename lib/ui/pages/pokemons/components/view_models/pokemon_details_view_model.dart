@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:pokedex/domain/entities/entities.dart';
+import 'package:pokedex/ui/helpers/utils.dart';
 import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 
 String format(num n) {
@@ -41,7 +42,7 @@ class PokemonDetailsViewModel extends Equatable {
 
   factory PokemonDetailsViewModel.fromEntity(PokemonDetailsEntity entity) {
     return PokemonDetailsViewModel(
-      name: entity.name,
+      name: capitalize(entity.name),
       id: '#${format(entity.id)}',
       urlPhoto: entity.urlPhoto,
       types: entity.types
