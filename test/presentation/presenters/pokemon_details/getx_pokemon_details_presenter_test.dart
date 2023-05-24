@@ -3,8 +3,10 @@
 import 'package:faker/faker.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pokedex/domain/entities/entities.dart';
+import 'package:pokedex/domain/helpers/helpers.dart';
 import 'package:pokedex/domain/usecases/usecases.dart';
 import 'package:pokedex/presentation/presenters/pokemon_details/getx_pokemon_details_presenter.dart';
+import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
 import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 import 'package:test/test.dart';
 
@@ -48,6 +50,9 @@ void main() {
     details = data;
     when(loadPokemonDetails.loadByPokemon(any)).thenAnswer((_) async => data);
   }
+
+  void mockLoadDetailsError() => when(loadPokemonDetails.loadByPokemon(any))
+      .thenThrow(DomainError.unexpected);
 
   setUp(() {
     loadPokemonDetails = LoadPokemonDetailsSpy();
@@ -95,6 +100,14 @@ void main() {
           specialDefense: '060',
           speed: '070',
         ))));
+    sut.loadData();
+  });
+
+  test('Should emit correct events on details failure', () {
+    mockLoadDetailsError();
+    sut.pokemonDetailsStream.listen(null,
+        onError: expectAsync1(
+            (error) => expect(error, UIError.unexpected.description)));
     sut.loadData();
   });
 }
