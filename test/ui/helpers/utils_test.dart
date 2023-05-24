@@ -12,5 +12,10 @@ void main() {
       final text = 'POKEMON NAME';
       expect(capitalize(text), 'Pokemon name');
     });
+
+    test('Should return empty string if string is empty', () {
+      final text = '';
+      expect(capitalize(text), '');
+    });
   });
 }
