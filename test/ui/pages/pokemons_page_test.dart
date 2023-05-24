@@ -418,4 +418,17 @@ main() {
 
     expect(find.byType(LoadNextPage), findsNothing);
   });
+
+  testWidgets('Should call goToChangeSorting on sorting click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.add(makePokemons());
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+
+    await tester.tap(find.text('A'));
+    verify(presenter.goToChangeSorting()).called(1);
+  });
 }

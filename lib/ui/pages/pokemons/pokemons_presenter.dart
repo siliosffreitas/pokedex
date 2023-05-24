@@ -17,4 +17,6 @@ abstract class PokemonsPresenter {
   void clearSearch();
 
   void search(String term);
+
+  void goToChangeSorting();
 }

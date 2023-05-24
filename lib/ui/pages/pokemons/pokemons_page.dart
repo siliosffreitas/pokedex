@@ -131,18 +131,21 @@ class PokemonsPage extends StatelessWidget {
                               ),
                             ),
                             SizedBox(width: 16),
-                            Container(
-                              height: 32,
-                              width: 32,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Colors.white,
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                'A',
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
+                            GestureDetector(
+                              onTap: presenter.goToChangeSorting,
+                              child: Container(
+                                height: 32,
+                                width: 32,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  color: Colors.white,
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'A',
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                ),
                               ),
                             )
                           ],

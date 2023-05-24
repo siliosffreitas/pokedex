@@ -105,4 +105,6 @@ class GetxPokemonsPresenter extends GetxController
     }
     return [];
   }
+
+  void goToChangeSorting() {}
 }
