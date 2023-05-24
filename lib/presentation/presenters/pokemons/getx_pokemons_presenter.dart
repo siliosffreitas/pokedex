@@ -74,4 +74,6 @@ class GetxPokemonsPresenter extends GetxController
   }
 
   void clearSearch() {}
+
+  void search(String term) {}
 }

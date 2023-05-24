@@ -15,4 +15,6 @@ abstract class PokemonsPresenter {
   Future<void> loadDetails(String pokemonName);
 
   void clearSearch();
+
+  void search(String term);
 }

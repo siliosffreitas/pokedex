@@ -81,12 +81,43 @@ class PokemonsPage extends StatelessWidget {
                                           Icon(Icons.search, size: 16),
                                           SizedBox(height: 8),
                                           Expanded(
-                                            child: Text(
-                                              'Search',
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'Search',
+                                                hintStyle: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                enabledBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Colors.transparent,
+                                                  ),
+                                                ),
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                            color: Colors
+                                                                .transparent)),
+                                              ),
                                               style: TextStyle(
-                                                  fontSize: 10,
-                                                  color: Color(0xFF666666)),
-                                            ),
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              onChanged: presenter.search,
+                                            )
+
+                                            // Text(
+                                            //   'Search',
+                                            //   style: TextStyle(
+                                            //       fontSize: 10,
+                                            //       color: Color(0xFF666666)),
+                                            // )
+
+                                            ,
                                           ),
                                           if (snapshot.hasData &&
                                               snapshot.data.isNotEmpty)

@@ -354,4 +354,16 @@ main() {
 
     verify(presenter.clearSearch()).called(1);
   });
+
+  testWidgets('Should call search with correct values',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    await tester.pumpAndSettle();
+
+    final termSearch = faker.lorem.word();
+    await tester.enterText(find.bySemanticsLabel('Search'), termSearch);
+
+    verify(presenter.search(termSearch)).called(1);
+  });
 }
