@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_test_utils/image_test_utils.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
+import 'package:pokedex/ui/helpers/sorting/ui_sorting.dart';
 import 'package:pokedex/ui/pages/pokemons/components/components.dart';
 import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
@@ -22,13 +23,14 @@ main() {
   StreamController<String> searchController;
   StreamController<Map<String, PokemonDetailsViewModel>>
       pokemonDetailsController;
+  StreamController<UISorting> sortingController;
 
   initStreams() {
     isLoadingController = StreamController<bool>();
     loadPokemonsController = StreamController<PokemonsResultViewModel>();
     navigateToController = StreamController<String>();
     searchController = StreamController<String>.broadcast();
-
+    sortingController = StreamController<UISorting>.broadcast();
     pokemonDetailsController =
         StreamController<Map<String, PokemonDetailsViewModel>>.broadcast();
   }
@@ -43,6 +45,7 @@ main() {
     when(presenter.pokemonDetailsStream)
         .thenAnswer((_) => pokemonDetailsController.stream);
     when(presenter.searchStream).thenAnswer((_) => searchController.stream);
+    when(presenter.sortingStream).thenAnswer((_) => sortingController.stream);
   }
 
   PokemonsResultViewModel makePokemons() => PokemonsResultViewModel(pokemons: [
@@ -141,6 +144,7 @@ main() {
     navigateToController.close();
     pokemonDetailsController.close();
     searchController.close();
+    sortingController.close();
   }
 
   tearDown(() {
@@ -201,6 +205,7 @@ main() {
     expect(find.text('Recarregar'), findsNothing);
     expect(find.text('Pokémon 1'), findsWidgets);
     expect(find.text('Pokémon 2'), findsWidgets);
+    expect(find.text('A'), findsWidgets);
     expect(find.byType(LoadNextPage), findsOneWidget);
   });
 
@@ -416,5 +421,87 @@ main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(LoadNextPage), findsNothing);
+  });
+
+  testWidgets('Should call goToChangeSorting on sorting click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.add(makePokemons());
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+
+    await tester.tap(find.text('A'));
+    verify(presenter.goToChangeSorting()).called(1);
+  });
+
+  testWidgets('Should show selected sorting', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.add(makePokemons());
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+
+    expect(find.text('A'), findsOneWidget);
+
+    sortingController.add(UISorting.number);
+    await tester.pumpAndSettle();
+    expect(find.text('#'), findsOneWidget);
+
+    sortingController.add(UISorting.name);
+    await tester.pumpAndSettle();
+    expect(find.text('A'), findsOneWidget);
+  });
+
+  testWidgets('Should show modal sorting correctely',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/modal_sorting');
+    await tester.pump();
+    expect(find.text('Sort by:'), findsOneWidget);
+    expect(find.text('Number'), findsOneWidget);
+    expect(find.text('Name'), findsOneWidget);
+  });
+
+  testWidgets(
+      'Should call changeSorting on sorting by Number on option popup click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/modal_sorting');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Number'));
+
+    verify(presenter.changeSorting(UISorting.number)).called(1);
+  });
+
+  testWidgets(
+      'Should call changeSorting on sorting by Name on option popup click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/modal_sorting');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Name'));
+
+    verify(presenter.changeSorting(UISorting.name)).called(1);
+  });
+
+  testWidgets('Should close popup on option popup click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/modal_sorting');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Name'));
+
+    await tester.pumpAndSettle();
+
+    expect(find.text('Sort by:'), findsNothing);
+    expect(find.text('Number'), findsNothing);
+    expect(find.text('Name'), findsNothing);
   });
 }

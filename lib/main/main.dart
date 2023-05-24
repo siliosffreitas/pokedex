@@ -25,7 +25,7 @@ class App extends StatelessWidget {
         fontFamily: 'Poppins',
         appBarTheme: AppBarTheme(
             textTheme: TextTheme(
-          title: TextStyle(
+          headline6: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w700,
             color: Colors.white,
