@@ -375,7 +375,7 @@ void main() {
   });
 
   test('Should call HttpClient with correct values', () async {
-    await sut.load(pokemon);
+    await sut.loadByPokemon(pokemon.name);
     verify(httpClient.request(
       url: '$url/${pokemon.name}',
       method: 'get',
@@ -383,7 +383,7 @@ void main() {
   });
 
   test('Should return details on 200', () async {
-    final details = await sut.load(pokemon);
+    final details = await sut.loadByPokemon(pokemon.name);
 
     expect(
       details,
@@ -422,7 +422,7 @@ void main() {
       () async {
     mockHttpData({'invalid_key': 'invalid_value'});
 
-    final future = sut.load(pokemon);
+    final future = sut.loadByPokemon(pokemon.name);
 
     expect(future, throwsA(DomainError.unexpected));
   });
@@ -432,7 +432,7 @@ void main() {
       () async {
     mockHttpData(mockInvalidValidDataNoImage());
 
-    final future = sut.load(pokemon);
+    final future = sut.loadByPokemon(pokemon.name);
 
     expect(future, throwsA(DomainError.unexpected));
   });
@@ -442,7 +442,7 @@ void main() {
       () async {
     mockHttpData(mockInValidDataInType());
 
-    final future = sut.load(pokemon);
+    final future = sut.loadByPokemon(pokemon.name);
 
     expect(future, throwsA(DomainError.unexpected));
   });
@@ -452,7 +452,7 @@ void main() {
       () async {
     mockHttpData(mockInValidDataInAbility());
 
-    final future = sut.load(pokemon);
+    final future = sut.loadByPokemon(pokemon.name);
 
     expect(future, throwsA(DomainError.unexpected));
   });
@@ -460,7 +460,7 @@ void main() {
   test('Should throw UnexpectedError if httpclient returns 404', () async {
     mockHttpError(HttpError.notFound);
 
-    final future = sut.load(pokemon);
+    final future = sut.loadByPokemon(pokemon.name);
 
     expect(future, throwsA(DomainError.unexpected));
   });
@@ -468,7 +468,7 @@ void main() {
   test('Should throw UnexpectedError if httpclient returns 500', () async {
     mockHttpError(HttpError.serverError);
 
-    final future = sut.load(pokemon);
+    final future = sut.loadByPokemon(pokemon.name);
 
     expect(future, throwsA(DomainError.unexpected));
   });

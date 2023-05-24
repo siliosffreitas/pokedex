@@ -15,10 +15,10 @@ class RemoteLoadPokemonDetails implements LoadPokemonDetails {
     @required this.url,
   });
 
-  Future<PokemonDetailsEntity> load(PokemonEntity pokemon) async {
+  Future<PokemonDetailsEntity> loadByPokemon(String pokemonName) async {
     try {
       final httpResponse =
-          await httpClient.request(url: '$url/${pokemon.name}', method: 'get');
+          await httpClient.request(url: '$url/$pokemonName', method: 'get');
       return RemotePokemonDetailsModel.fromJson(httpResponse).toEntity();
     } catch (error) {
       throw DomainError.unexpected;

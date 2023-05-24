@@ -69,18 +69,18 @@ main() {
               order: faker.randomGenerator.integer(100),
             ),
           ],
-          weight: faker.randomGenerator.integer(100),
-          height: faker.randomGenerator.integer(100),
+          weight: '6,5 kg',
+          height: '0,7 m',
           abilities: [
             AbilityViewModel(name: faker.lorem.word()),
             AbilityViewModel(name: faker.lorem.word()),
           ],
-          hp: faker.randomGenerator.integer(100),
-          attack: faker.randomGenerator.integer(100),
-          defense: faker.randomGenerator.integer(100),
-          specialAttack: faker.randomGenerator.integer(100),
-          specialDefense: faker.randomGenerator.integer(100),
-          speed: faker.randomGenerator.integer(100),
+          hp: faker.randomGenerator.integer(100).toString(),
+          attack: faker.randomGenerator.integer(100).toString(),
+          defense: faker.randomGenerator.integer(100).toString(),
+          specialAttack: faker.randomGenerator.integer(100).toString(),
+          specialDefense: faker.randomGenerator.integer(100).toString(),
+          speed: faker.randomGenerator.integer(100).toString(),
         ),
         'Pokémon 2': PokemonDetailsViewModel(
           name: 'Pokémon 2',
@@ -96,18 +96,18 @@ main() {
               order: faker.randomGenerator.integer(100),
             ),
           ],
-          weight: faker.randomGenerator.integer(100),
-          height: faker.randomGenerator.integer(100),
+          weight: '6,9 kg',
+          height: '0,7 m',
           abilities: [
             AbilityViewModel(name: faker.lorem.word()),
             AbilityViewModel(name: faker.lorem.word()),
           ],
-          hp: faker.randomGenerator.integer(100),
-          attack: faker.randomGenerator.integer(100),
-          defense: faker.randomGenerator.integer(100),
-          specialAttack: faker.randomGenerator.integer(100),
-          specialDefense: faker.randomGenerator.integer(100),
-          speed: faker.randomGenerator.integer(100),
+          hp: faker.randomGenerator.integer(100).toString(),
+          attack: faker.randomGenerator.integer(100).toString(),
+          defense: faker.randomGenerator.integer(100).toString(),
+          specialAttack: faker.randomGenerator.integer(100).toString(),
+          specialDefense: faker.randomGenerator.integer(100).toString(),
+          speed: faker.randomGenerator.integer(100).toString(),
         ),
       };
 
@@ -216,8 +216,8 @@ main() {
     expect(find.text('Pokémon 2'), findsWidgets);
     expect(find.byType(LoadNextPage), findsOneWidget);
 
-    verify(presenter.loadDetails(result.pokemons[0])).called(1);
-    verify(presenter.loadDetails(result.pokemons[1])).called(1);
+    verify(presenter.loadDetails(result.pokemons[0].name)).called(1);
+    verify(presenter.loadDetails(result.pokemons[1].name)).called(1);
   });
 
   testWidgets('Should call loadPokemons on LoadNextPage init',
@@ -256,7 +256,7 @@ main() {
     final button = find.text('Pokémon 1');
     await tester.tap(button);
     await tester.pump();
-    verify(presenter.goToPokemonDetail('1')).called(1);
+    verify(presenter.goToPokemonDetail('Pokémon 1')).called(1);
   });
 
   testWidgets('Should change page', (WidgetTester tester) async {

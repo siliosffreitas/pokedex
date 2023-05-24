@@ -11,5 +11,5 @@ abstract class PokemonsPresenter {
 
   void goToPokemonDetail(String id);
 
-  Future<void> loadDetails(PokemonViewModel pokemon);
+  Future<void> loadDetails(String pokemonName);
 }

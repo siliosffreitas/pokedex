@@ -27,17 +27,17 @@ main() {
         pokemons: [
           PokemonEntity(
             url: faker.internet.httpUrl(),
-            name: faker.lorem.word(),
+            name: 'nidoqueen',
           ),
           PokemonEntity(
             url: faker.internet.httpUrl(),
-            name: faker.lorem.word(),
+            name: 'nidoking',
           ),
         ],
       );
 
   PokemonDetailsEntity mockValidDataDetails() => PokemonDetailsEntity(
-        name: faker.lorem.word(),
+        name: 'nidoqueen',
         id: 1,
         urlPhoto: faker.internet.httpUrl(),
         types: [
@@ -50,18 +50,18 @@ main() {
             order: faker.randomGenerator.integer(100),
           ),
         ],
-        weight: faker.randomGenerator.integer(100),
-        height: faker.randomGenerator.integer(100),
+        weight: 34,
+        height: 7,
         abilities: [
           AbilityEntity(name: faker.person.name()),
           AbilityEntity(name: faker.person.name()),
         ],
-        hp: faker.randomGenerator.integer(100),
-        attack: faker.randomGenerator.integer(100),
-        defense: faker.randomGenerator.integer(100),
-        specialAttack: faker.randomGenerator.integer(100),
-        specialDefense: faker.randomGenerator.integer(100),
-        speed: faker.randomGenerator.integer(100),
+        hp: 20,
+        attack: 30,
+        defense: 40,
+        specialAttack: 50,
+        specialDefense: 60,
+        speed: 70,
       );
 
   void mockLoadPokemons(PokemonResultEntity data) {
@@ -71,14 +71,14 @@ main() {
 
   void mockLoadPokemonDetails(PokemonDetailsEntity data) {
     details = data;
-    when(loadPokemonDetails.load(any)).thenAnswer((_) async => data);
+    when(loadPokemonDetails.loadByPokemon(any)).thenAnswer((_) async => data);
   }
 
   void mockLoadPokemonsError() =>
       when(loadPokemons.load(any)).thenThrow(DomainError.unexpected);
 
-  void mockLoadDetailsError() =>
-      when(loadPokemonDetails.load(any)).thenThrow(DomainError.unexpected);
+  void mockLoadDetailsError() => when(loadPokemonDetails.loadByPokemon(any))
+      .thenThrow(DomainError.unexpected);
 
   setUp(() {
     loadPokemons = LoadPokemonsSpy();
@@ -103,12 +103,12 @@ main() {
         PokemonsResultViewModel(pokemons: [
           PokemonViewModel(
             url: pokemons.pokemons[0].url,
-            name: pokemons.pokemons[0].name,
+            name: 'Nidoqueen',
             id: null,
           ),
           PokemonViewModel(
             url: pokemons.pokemons[1].url,
-            name: pokemons.pokemons[1].name,
+            name: 'Nidoking',
             id: null,
           ),
         ]))));
@@ -150,22 +150,22 @@ main() {
             pokemons: [
               PokemonViewModel(
                 url: pokemons.pokemons[0].url,
-                name: pokemons.pokemons[0].name,
+                name: 'Nidoqueen',
                 id: null,
               ),
               PokemonViewModel(
                 url: pokemons.pokemons[1].url,
-                name: pokemons.pokemons[1].name,
+                name: 'Nidoking',
                 id: null,
               ),
               PokemonViewModel(
                 url: pokemons.pokemons[0].url,
-                name: pokemons.pokemons[0].name,
+                name: 'Nidoqueen',
                 id: null,
               ),
               PokemonViewModel(
                 url: pokemons.pokemons[1].url,
-                name: pokemons.pokemons[1].name,
+                name: 'Nidoking',
                 id: null,
               ),
             ],
@@ -176,15 +176,16 @@ main() {
   });
 
   test('Should call loadPokemonDetails on pokemon load', () {
-    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
-    verify(loadPokemonDetails.load(pokemons.pokemons[0])).called(1);
+    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
+    verify(loadPokemonDetails.loadByPokemon(pokemons.pokemons[0].name))
+        .called(1);
   });
 
   test('Should emit correct events on details success', () {
     sut.pokemonDetailsStream.listen(expectAsync1(
         (pokemonsDetailsReturned) => expect(pokemonsDetailsReturned, {
-              pokemons.pokemons[0].name: PokemonDetailsViewModel(
-                name: details.name,
+              'Nidoqueen': PokemonDetailsViewModel(
+                name: 'Nidoqueen',
                 id: '#001',
                 urlPhoto: details.urlPhoto,
                 types: [
@@ -197,21 +198,21 @@ main() {
                     name: details.types[1].name,
                   ),
                 ],
-                weight: details.weight,
-                height: details.height,
+                weight: '3,4 kg',
+                height: '0,7 m',
                 abilities: [
                   AbilityViewModel(name: details.abilities[0].name),
                   AbilityViewModel(name: details.abilities[1].name),
                 ],
-                hp: details.hp,
-                attack: details.attack,
-                defense: details.defense,
-                specialAttack: details.specialAttack,
-                specialDefense: details.specialDefense,
-                speed: details.speed,
+                hp: '020',
+                attack: '030',
+                defense: '040',
+                specialAttack: '050',
+                specialDefense: '060',
+                speed: '070',
               )
             })));
-    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
   });
 
   test('Should emit correct events on details failure', () {
@@ -219,16 +220,17 @@ main() {
     sut.pokemonDetailsStream.listen(null,
         onError: expectAsync1(
             (error) => expect(error, UIError.unexpected.description)));
-    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+    sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
   });
 
   test('Should mantain previous details if receive new details', () async {
-    await sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
+    await sut
+        .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
 
     sut.pokemonDetailsStream.listen(expectAsync1(
         (pokemonsDetailsReturned) => expect(pokemonsDetailsReturned, {
-              pokemons.pokemons[0].name: PokemonDetailsViewModel(
-                name: details.name,
+              'Nidoqueen': PokemonDetailsViewModel(
+                name: 'Nidoqueen',
                 id: '#001',
                 urlPhoto: details.urlPhoto,
                 types: [
@@ -241,21 +243,21 @@ main() {
                     name: details.types[1].name,
                   ),
                 ],
-                weight: details.weight,
-                height: details.height,
+                weight: '3,4 kg',
+                height: '0,7 m',
                 abilities: [
                   AbilityViewModel(name: details.abilities[0].name),
                   AbilityViewModel(name: details.abilities[1].name),
                 ],
-                hp: details.hp,
-                attack: details.attack,
-                defense: details.defense,
-                specialAttack: details.specialAttack,
-                specialDefense: details.specialDefense,
-                speed: details.speed,
+                hp: '020',
+                attack: '030',
+                defense: '040',
+                specialAttack: '050',
+                specialDefense: '060',
+                speed: '070',
               ),
-              pokemons.pokemons[1].name: PokemonDetailsViewModel(
-                name: details.name,
+              'Nidoking': PokemonDetailsViewModel(
+                name: 'Nidoqueen',
                 id: '#001',
                 urlPhoto: details.urlPhoto,
                 types: [
@@ -268,20 +270,21 @@ main() {
                     name: details.types[1].name,
                   ),
                 ],
-                weight: details.weight,
-                height: details.height,
+                weight: '3,4 kg',
+                height: '0,7 m',
                 abilities: [
                   AbilityViewModel(name: details.abilities[0].name),
                   AbilityViewModel(name: details.abilities[1].name),
                 ],
-                hp: details.hp,
-                attack: details.attack,
-                defense: details.defense,
-                specialAttack: details.specialAttack,
-                specialDefense: details.specialDefense,
-                speed: details.speed,
+                hp: '020',
+                attack: '030',
+                defense: '040',
+                specialAttack: '050',
+                specialDefense: '060',
+                speed: '070',
               ),
             })));
-    await sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]));
+    await sut
+        .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]).name);
   });
 }

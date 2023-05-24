@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'factories/pages/pokemon_details/pokemon_details_page_factory.dart';
 import 'factories/pages/pokemons/pokemons_page_factory.dart';
 
 void main() {
@@ -17,11 +18,21 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       title: 'Pokédex',
       theme: ThemeData(
-          primaryColor: primaryColor,
-          iconTheme: IconThemeData(
-            color: primaryColor,
+        primaryColor: primaryColor,
+        iconTheme: IconThemeData(
+          color: primaryColor,
+        ),
+        fontFamily: 'Poppins',
+        appBarTheme: AppBarTheme(
+            textTheme: TextTheme(
+          title: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+            fontFamily: 'Poppins',
           ),
-          fontFamily: 'Poppins'),
+        )),
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/pokemons',
       getPages: [
@@ -29,6 +40,10 @@ class App extends StatelessWidget {
             name: '/pokemons',
             page: makePokemonsPage,
             transition: Transition.fade),
+        GetPage(
+          name: '/pokemon/:pokemon_name',
+          page: makePokemonDetailsPage,
+        ),
       ],
     );
   }
