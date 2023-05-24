@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/route_manager.dart';
@@ -57,6 +58,34 @@ void main() {
     loadPokemonDetailsController.close();
   }
 
+  PokemonDetailsViewModel makePokemonsDetails() => PokemonDetailsViewModel(
+        name: 'Pokémon 1',
+        id: '#001',
+        urlPhoto: faker.internet.httpUrl(),
+        types: [
+          TypeViewModel(
+            name: 'grass',
+            order: faker.randomGenerator.integer(100),
+          ),
+          TypeViewModel(
+            name: 'poison',
+            order: faker.randomGenerator.integer(100),
+          ),
+        ],
+        weight: '6,9 kg',
+        height: '0,7 m',
+        abilities: [
+          AbilityViewModel(name: 'ability 1'),
+          AbilityViewModel(name: 'ability 2'),
+        ],
+        hp: '101',
+        attack: '102',
+        defense: '103',
+        specialAttack: '104',
+        specialDefense: '105',
+        speed: '106',
+      );
+
   tearDown(() {
     closeStreams();
   });
@@ -99,5 +128,33 @@ void main() {
 
     expect(find.text('Recarregar'), findsOneWidget);
     expect(find.text('Pokémon 1'), findsNothing);
+  });
+
+  testWidgets('Should present data if loadPokemonDetailsStreams success',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonDetailsController.add(makePokemonsDetails());
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+    expect(find.text('Algo errado aconteceu. Tente novamente mais tarde.'),
+        findsNothing);
+
+    expect(find.text('Recarregar'), findsNothing);
+    expect(find.text('Pokémon 1'), findsOneWidget);
+    expect(find.text('#001'), findsOneWidget);
+    expect(find.text('grass'), findsOneWidget);
+    expect(find.text('poison'), findsOneWidget);
+    expect(find.text('6,9 kg'), findsOneWidget);
+    expect(find.text('0,7 m'), findsOneWidget);
+    expect(find.text('ability 1'), findsOneWidget);
+    expect(find.text('ability 2'), findsOneWidget);
+    expect(find.text('101'), findsOneWidget);
+    expect(find.text('102'), findsOneWidget);
+    expect(find.text('103'), findsOneWidget);
+    expect(find.text('104'), findsOneWidget);
+    expect(find.text('105'), findsOneWidget);
+    expect(find.text('106'), findsOneWidget);
   });
 }

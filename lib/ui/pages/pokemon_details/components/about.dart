@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 
 import 'components.dart';
 
 class About extends StatelessWidget {
+  final PokemonDetailsViewModel viewModel;
+
+  About({@required this.viewModel});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +31,7 @@ class About extends StatelessWidget {
                     ),
                     SizedBox(width: 10),
                     Text(
-                      '6,9kg',
+                      viewModel.weight,
                       style: TextStyle(
                         color: Color(0xFF1D1D1D),
                         fontSize: 10,
@@ -58,7 +63,7 @@ class About extends StatelessWidget {
                     ),
                     SizedBox(width: 10),
                     Text(
-                      '0,7m',
+                      viewModel.height,
                       style: TextStyle(
                         color: Color(0xFF1D1D1D),
                         fontSize: 10,
@@ -80,11 +85,9 @@ class About extends StatelessWidget {
               children: [
                 Expanded(
                   child: Column(
-                    children: [
-                      AbilityItem(),
-                      AbilityItem(),
-                    ],
-                  ),
+                      children: viewModel.abilities
+                          .map((ability) => AbilityItem(viewModel: ability))
+                          .toList()),
                 ),
                 Text(
                   'Moves',

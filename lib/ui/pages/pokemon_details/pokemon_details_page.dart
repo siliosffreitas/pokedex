@@ -35,8 +35,10 @@ class PokemonDetailsPage extends StatelessWidget {
                 if (snapshot.hasData) {
                   return Column(
                     children: [
-                      CustomAppBar(),
-                      Expanded(child: Content()),
+                      CustomAppBar(
+                        viewModel: snapshot.data,
+                      ),
+                      Expanded(child: Content(viewModel: snapshot.data)),
                     ],
                   );
                 }
@@ -49,6 +51,10 @@ class PokemonDetailsPage extends StatelessWidget {
 }
 
 class Content extends StatelessWidget {
+  final PokemonDetailsViewModel viewModel;
+
+  Content({@required this.viewModel});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,11 +71,11 @@ class Content extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            TypesItens(),
+            TypesItens(viewModel: viewModel),
             TitleSession(title: 'About'),
-            About(),
+            About(viewModel: viewModel),
             TitleSession(title: 'Base Stats'),
-            Stats(),
+            Stats(viewModel: viewModel),
           ],
         ),
       ),
@@ -78,6 +84,10 @@ class Content extends StatelessWidget {
 }
 
 class CustomAppBar extends StatelessWidget {
+  final PokemonDetailsViewModel viewModel;
+
+  CustomAppBar({@required this.viewModel});
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -93,7 +103,7 @@ class CustomAppBar extends StatelessWidget {
                     backgroundColor: Colors.green,
                     elevation: 0,
                     title: Text(
-                      'Silio',
+                      viewModel.name,
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
@@ -104,7 +114,7 @@ class CustomAppBar extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 24, vertical: 16),
                         child: Text(
-                          '#001',
+                          viewModel.id,
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,

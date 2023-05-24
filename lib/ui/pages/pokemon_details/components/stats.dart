@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 
 import 'components.dart';
 
 class Stats extends StatelessWidget {
+  final PokemonDetailsViewModel viewModel;
+
+  Stats({@required this.viewModel});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -124,12 +129,15 @@ class Stats extends StatelessWidget {
               child: Container(
             child: Column(
               children: [
-                Expanded(child: StatItem(value: 30)),
-                Expanded(child: StatItem(value: 54)),
-                Expanded(child: StatItem(value: 34)),
-                Expanded(child: StatItem(value: 76)),
-                Expanded(child: StatItem(value: 90)),
-                Expanded(child: StatItem(value: 23)),
+                Expanded(child: StatItem(value: int.parse(viewModel.hp))),
+                Expanded(child: StatItem(value: int.parse(viewModel.attack))),
+                Expanded(child: StatItem(value: int.parse(viewModel.defense))),
+                Expanded(
+                    child: StatItem(value: int.parse(viewModel.specialAttack))),
+                Expanded(
+                    child:
+                        StatItem(value: int.parse(viewModel.specialDefense))),
+                Expanded(child: StatItem(value: int.parse(viewModel.speed))),
               ],
             ),
           ))
