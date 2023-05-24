@@ -1,5 +1,5 @@
 import '../entities/entities.dart';
 
 abstract class LoadPokemonDetails {
-  Future<PokemonDetailsEntity> load(PokemonEntity pokemon);
+  Future<PokemonDetailsEntity> loadByPokemon(String pokemonName);
 }

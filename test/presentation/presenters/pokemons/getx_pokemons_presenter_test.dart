@@ -71,14 +71,14 @@ main() {
 
   void mockLoadPokemonDetails(PokemonDetailsEntity data) {
     details = data;
-    when(loadPokemonDetails.load(any)).thenAnswer((_) async => data);
+    when(loadPokemonDetails.loadByPokemon(any)).thenAnswer((_) async => data);
   }
 
   void mockLoadPokemonsError() =>
       when(loadPokemons.load(any)).thenThrow(DomainError.unexpected);
 
-  void mockLoadDetailsError() =>
-      when(loadPokemonDetails.load(any)).thenThrow(DomainError.unexpected);
+  void mockLoadDetailsError() => when(loadPokemonDetails.loadByPokemon(any))
+      .thenThrow(DomainError.unexpected);
 
   setUp(() {
     loadPokemons = LoadPokemonsSpy();
@@ -177,7 +177,8 @@ main() {
 
   test('Should call loadPokemonDetails on pokemon load', () {
     sut.loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]));
-    verify(loadPokemonDetails.load(pokemons.pokemons[0])).called(1);
+    verify(loadPokemonDetails.loadByPokemon(pokemons.pokemons[0].name))
+        .called(1);
   });
 
   test('Should emit correct events on details success', () {
