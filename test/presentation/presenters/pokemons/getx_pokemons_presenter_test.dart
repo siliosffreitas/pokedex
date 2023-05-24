@@ -161,8 +161,8 @@ main() {
   });
 
   test('Should go to PokemonDetailsPage on pokemon click', () {
-    sut.navigateToStream
-        .listen(expectAsync1((page) => expect(page, '/pokemon/any_route')));
+    expectLater(
+        sut.navigateToStream, emitsInOrder([null, '/pokemon/any_route']));
 
     sut.goToPokemonDetail('any_route');
   });
@@ -485,7 +485,7 @@ main() {
 
   group('sorting', () {
     test('Should go to SortingModal on sorting click', () {
-      expectLater(sut.navigateToStream, emitsInOrder(['/modal_sorting', null]));
+      expectLater(sut.navigateToStream, emitsInOrder([null, '/modal_sorting']));
 
       sut.goToChangeSorting();
     });

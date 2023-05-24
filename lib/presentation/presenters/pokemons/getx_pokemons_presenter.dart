@@ -60,6 +60,7 @@ class GetxPokemonsPresenter extends GetxController
   }
 
   void goToPokemonDetail(String name) {
+    navigateTo = null;
     navigateTo = '/pokemon/$name';
   }
 
@@ -109,8 +110,8 @@ class GetxPokemonsPresenter extends GetxController
   }
 
   void goToChangeSorting() {
-    navigateTo = '/modal_sorting';
     navigateTo = null;
+    navigateTo = '/modal_sorting';
   }
 
   void changeSorting(UISorting newSorting) {
