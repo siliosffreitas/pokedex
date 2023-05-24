@@ -458,7 +458,8 @@ main() {
       sut.goToChangeSorting();
     });
 
-    test('Should change sorting on option click', () {
+    test('Should change sorting on option click', () async {
+      await sut.loadData();
       expectLater(sut.sortingStream,
           emitsInOrder([UISorting.number, UISorting.name, UISorting.number]));
 
