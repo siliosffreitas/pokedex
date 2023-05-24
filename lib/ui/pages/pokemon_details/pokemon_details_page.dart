@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 
 import 'components/components.dart';
+import 'pokemon_details_presenter.dart';
 
 class PokemonDetailsPage extends StatelessWidget {
+  final PokemonDetailsPresenter presenter;
+
+  const PokemonDetailsPage({@required this.presenter});
   @override
   Widget build(BuildContext context) {
+    presenter.loadData();
+
     return Scaffold(
       backgroundColor: Colors.green,
-      body: SafeArea(
-          child: Column(
-        children: [
-          CustomAppBar(),
-          Expanded(child: Content()),
-        ],
+      body: SafeArea(child: Builder(
+        builder: (BuildContext context) {
+          return Column(
+            children: [
+              CustomAppBar(),
+              Expanded(child: Content()),
+            ],
+          );
+        },
       )),
     );
   }
@@ -51,12 +60,12 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.topCenter,
+      alignment: Alignment.bottomCenter,
       children: [
         Column(
           children: [
             Container(
-              height: 224,
+              height: 200,
               child: Stack(
                 children: [
                   AppBar(
@@ -87,42 +96,12 @@ class CustomAppBar extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Image(
                       image: AssetImage('lib/ui/assets/Pokeball.png'),
-                      height: 224,
-                      width: 224,
+                      height: 200,
+                      width: 200,
                       fit: BoxFit.fitWidth,
                       color: Colors.white.withAlpha(50),
                     ),
                   ),
-
-                  // Container(
-                  //   height: 72,
-                  //   child: Row(
-                  //     children: [
-                  //       IconButton(
-                  //           icon: Icon(Icons.arrow_back, color: Colors.white),
-                  //           onPressed: () {}),
-                  //       Expanded(
-                  //         child: Text(
-                  //           'Silio',
-                  //           style: TextStyle(
-                  //               fontSize: 24,
-                  //               fontWeight: FontWeight.w700,
-                  //               color: Colors.white),
-                  //         ),
-                  //       ),
-                  //       Padding(
-                  //         padding: const EdgeInsets.symmetric(horizontal: 24),
-                  //         child: Text(
-                  //           '#001',
-                  //           style: TextStyle(
-                  //               fontSize: 12,
-                  //               fontWeight: FontWeight.w700,
-                  //               color: Colors.white),
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),

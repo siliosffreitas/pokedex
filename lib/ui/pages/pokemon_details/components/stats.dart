@@ -6,13 +6,12 @@ class Stats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 96,
+      height: 100,
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
           Container(
             width: 39,
-
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -25,7 +24,7 @@ class Stats extends StatelessWidget {
                         'HP',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 9,
                             color: Colors.green,
                             fontWeight: FontWeight.w700),
                       ),
@@ -41,7 +40,7 @@ class Stats extends StatelessWidget {
                         'ATK',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 9,
                             color: Colors.green,
                             fontWeight: FontWeight.w700),
                       ),
@@ -57,7 +56,7 @@ class Stats extends StatelessWidget {
                         'DEF',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 9,
                             color: Colors.green,
                             fontWeight: FontWeight.w700),
                       ),
@@ -73,7 +72,7 @@ class Stats extends StatelessWidget {
                         'SATK',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 9,
                             color: Colors.green,
                             fontWeight: FontWeight.w700),
                       ),
@@ -89,7 +88,7 @@ class Stats extends StatelessWidget {
                         'SDEF',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 9,
                             color: Colors.green,
                             fontWeight: FontWeight.w700),
                       ),
@@ -105,7 +104,7 @@ class Stats extends StatelessWidget {
                         'SPD',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 9,
                             color: Colors.green,
                             fontWeight: FontWeight.w700),
                       ),
