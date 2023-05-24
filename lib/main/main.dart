@@ -36,10 +36,10 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/pokemon/bulbasaur',
       getPages: [
-        // GetPage(
-        //     name: '/pokemons',
-        //     page: makePokemonsPage,
-        //     transition: Transition.fade),
+        GetPage(
+            name: '/pokemons',
+            page: makePokemonsPage,
+            transition: Transition.fade),
         GetPage(
           name: '/pokemon/:pokemon_name',
           page: makePokemonDetailsPage,
