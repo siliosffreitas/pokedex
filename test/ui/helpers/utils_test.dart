@@ -7,5 +7,10 @@ void main() {
       final text = 'pokemon name';
       expect(capitalize(text), 'Pokemon name');
     });
+
+    test('Should captilize string in upper case', () {
+      final text = 'POKEMON NAME';
+      expect(capitalize(text), 'Pokemon name');
+    });
   });
 }
