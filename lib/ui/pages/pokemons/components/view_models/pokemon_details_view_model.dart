@@ -47,17 +47,17 @@ class PokemonDetailsViewModel extends Equatable {
       types: entity.types
           .map<TypeViewModel>((t) => TypeViewModel.fromEntity(t))
           .toList(),
-      weight: '${entity.weight}',
-      height: '${entity.height}',
+      weight: '${(entity.weight / 10).toString().replaceAll('.', ',')} kg',
+      height: '${(entity.height / 10).toString().replaceAll('.', ',')} m',
       abilities: entity.abilities
           .map<AbilityViewModel>((t) => AbilityViewModel.fromEntity(t))
           .toList(),
-      hp: '${entity.hp}',
-      attack: '${entity.attack}',
-      defense: '${entity.defense}',
-      specialAttack: '${entity.specialAttack}',
-      specialDefense: '${entity.specialDefense}',
-      speed: '${entity.speed}',
+      hp: format(entity.hp),
+      attack: format(entity.attack),
+      defense: format(entity.defense),
+      specialAttack: format(entity.specialAttack),
+      specialDefense: format(entity.specialDefense),
+      speed: format(entity.speed),
     );
   }
 
