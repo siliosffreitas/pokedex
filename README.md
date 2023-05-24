@@ -6,11 +6,13 @@ Implementação de uma Pokédex, o layout e a documentação da api foram defini
 
 Por escolha, decidi por desenvolver o app usando a versão 1.20.4 (sem nullsafe) apenas para demonstrar o conhecimento em arquitetura limpa e TDD, (por isso as bibliotecas externas estão com versões travadas também) mas havendo mais tempo é perfeitamente possível uma atualização na versão do projeto.
 
-Pelo fato de ter sido feito com TDD a cobertura de teste está em 100%, como pode ser visto em coverage/html/index.html ou rodando seguintes comandos:
+Pelo fato de ter sido feito com TDD a cobertura de teste está em **100%**, como pode ser visto em coverage/html/index.html ou rodando seguintes comandos:
 
-flutter test --coverage
-genhtml coverage/lcov.info -o coverage/html
-open coverage/html/index.html
+`flutter test --coverage`
+
+`genhtml coverage/lcov.info -o coverage/html`
+
+`open coverage/html/index.html`
 
 A busca e a ordenação é feita localmente com os dados que já estão na lista.
 
@@ -18,6 +20,13 @@ Na tela de listagem de Pokemon não vem as informações de ID e de url da foto,
 
 Não encontrei no endpoint de detalhes de um Pokemon a informação a respeito da cor predominante dele. Decidi por manter as cores fixas em verde, pois calcular por meio de uma biblioteca externa qual a cor predominante de uma imagem da internet faria a cobertura de testes cair.
 
+Por padrão as IDEs executam a main.dart de um app Flutter localizado na pasta lib. Para executar esse projeto é necessário dizer para a IDE que a main que ela deve usar é a que está no seguinte local: lib/main/main.dart
+
+O tamanho escolhido para a página é 30 elementos.
+
+Na pasta screenshots existem alguns prints tirados do app rodando no Simulador do iPhone.
+<img src="/screenshots/pokemons_page.png" width="400" title="Home"/>
+<img src="/screenshots/pokemon_details_page.png" width="400" title="Detalhes"/>
 
 O projeto foi testado nos seguintes dispositivos:
 - Samsung J5 (Real)
