@@ -461,6 +461,27 @@ main() {
             ]))));
         sut.search('');
       });
+
+      test('Should return all pokemons when clear search', () async {
+        await sut.loadData();
+        sut.search('Nidoqueen');
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[1].url,
+                name: 'Nidoking',
+                id: null,
+              ),
+            ]))));
+        sut.clearSearch();
+      });
     });
 
     group('by code', () {

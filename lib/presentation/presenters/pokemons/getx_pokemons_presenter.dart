@@ -83,6 +83,7 @@ class GetxPokemonsPresenter extends GetxController
   }
 
   void clearSearch() {
+    _foundedsPokemons.value = _allPokemons;
     _search.value = null;
   }
 
