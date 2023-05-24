@@ -290,19 +290,36 @@ main() {
         .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]).name);
   });
 
-  test('Should show X button if search is inputed or not', () async {
-    expectLater(sut.searchStream, emitsInOrder([search, null, search, '']));
-    sut.search(search);
-    sut.search(null);
-    sut.search(search);
-    sut.search('');
-  });
+  group('search', () {
+    test('Should show X button if search is inputed or not', () async {
+      expectLater(sut.searchStream, emitsInOrder([search, null, search, '']));
+      sut.search(search);
+      sut.search(null);
+      sut.search(search);
+      sut.search('');
+    });
 
-  test('Should clear search on call clearSearch', () async {
-    expectLater(sut.searchStream, emitsInOrder([search, null, '', null]));
-    sut.search(search);
-    sut.clearSearch();
-    sut.search('');
-    sut.clearSearch();
+    test('Should clear search on call clearSearch', () async {
+      expectLater(sut.searchStream, emitsInOrder([search, null, '', null]));
+      sut.search(search);
+      sut.clearSearch();
+      sut.search('');
+      sut.clearSearch();
+    });
+
+    test('Should return only pokemons that matchs in name', () async {
+      await sut.loadData();
+
+      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+          pokemonsReturned,
+          PokemonsResultViewModel(pokemons: [
+            PokemonViewModel(
+              url: pokemons.pokemons[0].url,
+              name: 'Nidoqueen',
+              id: null,
+            ),
+          ]))));
+      sut.search('Nidoqueen');
+    });
   });
 }
