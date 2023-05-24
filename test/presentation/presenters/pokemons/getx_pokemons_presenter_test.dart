@@ -325,6 +325,14 @@ main() {
         sut.search('Nidoqueen');
       });
 
+      test('Should return empty list if none founded', () async {
+        await sut.loadData();
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) =>
+            expect(pokemonsReturned, PokemonsResultViewModel(pokemons: []))));
+        sut.search('no_pokemon_name');
+      });
+
       test('Should return only pokemons that partial matchs in name', () async {
         await sut.loadData();
 
