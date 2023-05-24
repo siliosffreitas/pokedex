@@ -290,9 +290,19 @@ main() {
         .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]).name);
   });
 
-  test('Should show X button if search is inputed', () async {
-    expectLater(sut.searchStream, emits(search));
-
+  test('Should show X button if search is inputed or not', () async {
+    expectLater(sut.searchStream, emitsInOrder([search, null, search, '']));
     sut.search(search);
+    sut.search(null);
+    sut.search(search);
+    sut.search('');
+  });
+
+  test('Should clear search on call clearSearch', () async {
+    expectLater(sut.searchStream, emitsInOrder([search, null, '', null]));
+    sut.search(search);
+    sut.clearSearch();
+    sut.search('');
+    sut.clearSearch();
   });
 }
