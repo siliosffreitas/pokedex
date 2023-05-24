@@ -7,14 +7,20 @@ import 'package:test/test.dart';
 class LoadPokemonDetailsSpy extends Mock implements LoadPokemonDetails {}
 
 void main() {
-  test('Should call loadPokemonDetails on loadData', () {
-    final loadPokemonDetails = LoadPokemonDetailsSpy();
-    final pokemonName = faker.lorem.word();
-    final sut = GetxPokemonDetailsPresenter(
+  GetxPokemonDetailsPresenter sut;
+  LoadPokemonDetails loadPokemonDetails;
+  String pokemonName;
+
+  setUp(() {
+    loadPokemonDetails = LoadPokemonDetailsSpy();
+    pokemonName = faker.lorem.word();
+    sut = GetxPokemonDetailsPresenter(
       loadPokemonDetails: loadPokemonDetails,
       pokemonName: pokemonName,
     );
+  });
 
+  test('Should call loadPokemonDetails on loadData', () {
     sut.loadData();
     verify(loadPokemonDetails.loadByPokemon(pokemonName)).called(1);
   });
