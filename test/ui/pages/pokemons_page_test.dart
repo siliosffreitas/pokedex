@@ -477,4 +477,16 @@ main() {
 
     verify(presenter.changeSorting(UISorting.number)).called(1);
   });
+
+  testWidgets(
+      'Should call changeSorting on sorting by Name on option popup click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/modal_sorting');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Name'));
+
+    verify(presenter.changeSorting(UISorting.name)).called(1);
+  });
 }
