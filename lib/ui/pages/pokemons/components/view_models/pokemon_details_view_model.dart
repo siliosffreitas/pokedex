@@ -4,11 +4,6 @@ import 'package:pokedex/domain/entities/entities.dart';
 import 'package:pokedex/ui/helpers/utils.dart';
 import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 
-String format(num n) {
-  var a = n.toString().padLeft(3, '0');
-  return a;
-}
-
 class PokemonDetailsViewModel extends Equatable {
   final String name;
   final String id;
@@ -43,7 +38,7 @@ class PokemonDetailsViewModel extends Equatable {
   factory PokemonDetailsViewModel.fromEntity(PokemonDetailsEntity entity) {
     return PokemonDetailsViewModel(
       name: capitalize(entity.name),
-      id: '#${format(entity.id)}',
+      id: '#${format3Digits(entity.id)}',
       urlPhoto: entity.urlPhoto,
       types: entity.types
           .map<TypeViewModel>((t) => TypeViewModel.fromEntity(t))
@@ -53,12 +48,12 @@ class PokemonDetailsViewModel extends Equatable {
       abilities: entity.abilities
           .map<AbilityViewModel>((t) => AbilityViewModel.fromEntity(t))
           .toList(),
-      hp: format(entity.hp),
-      attack: format(entity.attack),
-      defense: format(entity.defense),
-      specialAttack: format(entity.specialAttack),
-      specialDefense: format(entity.specialDefense),
-      speed: format(entity.speed),
+      hp: format3Digits(entity.hp),
+      attack: format3Digits(entity.attack),
+      defense: format3Digits(entity.defense),
+      specialAttack: format3Digits(entity.specialAttack),
+      specialDefense: format3Digits(entity.specialDefense),
+      speed: format3Digits(entity.speed),
     );
   }
 

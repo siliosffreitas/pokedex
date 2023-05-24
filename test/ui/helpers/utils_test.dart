@@ -33,4 +33,25 @@ void main() {
       expect(capitalize(text), null);
     });
   });
+
+  group('format3Digits', () {
+    test('Should format number', () {
+      expect(format3Digits(2), '002');
+    });
+    test('Should format number 2 digits', () {
+      expect(format3Digits(20), '020');
+    });
+
+    test('Should format number 3 digits', () {
+      expect(format3Digits(200), '200');
+    });
+
+    test('Should format number 4 digits', () {
+      expect(format3Digits(2000), '2000');
+    });
+
+    test('Should return null if number is null', () {
+      expect(format3Digits(null), isNull);
+    });
+  });
 }

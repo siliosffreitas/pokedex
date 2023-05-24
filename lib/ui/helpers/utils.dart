@@ -4,3 +4,11 @@ String capitalize(String s) {
   }
   return s;
 }
+
+String format3Digits(num n) {
+  if (n == null) {
+    return null;
+  }
+  var a = n.toString().padLeft(3, '0');
+  return a;
+}
