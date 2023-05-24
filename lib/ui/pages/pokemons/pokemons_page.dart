@@ -120,11 +120,11 @@ class PokemonsPage extends StatelessWidget {
                                           ),
                                           if (snapshot.hasData &&
                                               snapshot.data.isNotEmpty)
-                                            IconButton(
-                                                onPressed:
-                                                    presenter.clearSearch,
-                                                icon: Icon(Icons.close,
-                                                    size: 16)),
+                                            GestureDetector(
+                                              onTap: presenter.clearSearch,
+                                              child:
+                                                  Icon(Icons.close, size: 16),
+                                            ),
                                         ],
                                       );
                                     }),
