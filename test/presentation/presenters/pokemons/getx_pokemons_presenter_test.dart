@@ -448,4 +448,13 @@ main() {
       });
     });
   });
+
+  group('sorting', () {
+    test('Should go to SortingModal on sorting click', () {
+      sut.navigateToStream
+          .listen(expectAsync1((page) => expect(page, '/modal_sorting')));
+
+      sut.goToChangeSorting();
+    });
+  });
 }

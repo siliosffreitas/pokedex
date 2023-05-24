@@ -107,7 +107,9 @@ class GetxPokemonsPresenter extends GetxController
     return [];
   }
 
-  void goToChangeSorting() {}
+  void goToChangeSorting() {
+    navigateTo = '/modal_sorting';
+  }
 
   void changeSorting(UISorting newSorting) {}
 }
