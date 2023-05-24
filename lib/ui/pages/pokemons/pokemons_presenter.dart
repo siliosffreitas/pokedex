@@ -22,4 +22,6 @@ abstract class PokemonsPresenter {
   void search(String term);
 
   void goToChangeSorting();
+
+  void changeSorting(UISorting newSorting);
 }

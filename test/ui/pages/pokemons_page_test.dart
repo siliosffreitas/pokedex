@@ -30,7 +30,7 @@ main() {
     loadPokemonsController = StreamController<PokemonsResultViewModel>();
     navigateToController = StreamController<String>();
     searchController = StreamController<String>.broadcast();
-    sortingController = StreamController<UISorting>();
+    sortingController = StreamController<UISorting>.broadcast();
     pokemonDetailsController =
         StreamController<Map<String, PokemonDetailsViewModel>>.broadcast();
   }
@@ -462,5 +462,19 @@ main() {
     navigateToController.add('/modal_sorting');
     await tester.pump();
     expect(find.text('Sort by:'), findsOneWidget);
+    expect(find.text('Number'), findsOneWidget);
+    expect(find.text('Name'), findsOneWidget);
+  });
+
+  testWidgets(
+      'Should call changeSorting on sorting by Number on option popup click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/modal_sorting');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Number'));
+
+    verify(presenter.changeSorting(UISorting.number)).called(1);
   });
 }

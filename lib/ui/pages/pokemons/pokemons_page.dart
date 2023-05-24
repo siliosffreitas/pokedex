@@ -31,7 +31,7 @@ class PokemonsPage extends StatelessWidget {
           presenter.navigateToStream.listen((page) {
             if (page?.isNotEmpty == true) {
               if (page == '/modal_sorting') {
-                showSortingModal(context);
+                showSortingModal(context, presenter);
               } else {
                 Get.toNamed(page);
               }
