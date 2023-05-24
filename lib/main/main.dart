@@ -23,6 +23,15 @@ class App extends StatelessWidget {
           color: primaryColor,
         ),
         fontFamily: 'Poppins',
+        appBarTheme: AppBarTheme(
+            textTheme: TextTheme(
+          title: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+            fontFamily: 'Poppins',
+          ),
+        )),
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/pokemon/bulbasaur',
