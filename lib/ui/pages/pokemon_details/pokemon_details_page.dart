@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/ui/components/components.dart';
 
 import 'components/components.dart';
 import 'pokemon_details_presenter.dart';
@@ -9,6 +10,14 @@ class PokemonDetailsPage extends StatelessWidget {
   const PokemonDetailsPage({@required this.presenter});
   @override
   Widget build(BuildContext context) {
+    presenter.isLoadingStream.listen((loading) {
+      if (loading == true) {
+        showLoading(context);
+      } else {
+        hideLoading(context);
+      }
+    });
+
     presenter.loadData();
 
     return Scaffold(
