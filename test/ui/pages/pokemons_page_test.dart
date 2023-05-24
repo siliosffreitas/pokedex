@@ -377,4 +377,16 @@ main() {
     expect(tester.widget<TextField>(find.byType(TextField)).controller.text,
         termSearch);
   });
+
+  testWidgets('Should show the searched term empty',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    final termSearch = '';
+    searchController.add(termSearch);
+    await tester.pump();
+
+    expect(tester.widget<TextField>(find.byType(TextField)).controller.text,
+        termSearch);
+  });
 }
