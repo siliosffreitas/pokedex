@@ -21,7 +21,6 @@ main() {
   LoadPokemons loadPokemons;
   LoadPokemonDetails loadPokemonDetails;
   PokemonResultEntity pokemons;
-  PokemonDetailsEntity details;
   String search;
 
   PokemonResultEntity mockValidData() => PokemonResultEntity(
@@ -38,25 +37,55 @@ main() {
         ],
       );
 
-  PokemonDetailsEntity mockValidDataDetails() => PokemonDetailsEntity(
-        name: 'nidoqueen',
+  PokemonDetailsEntity mockValidDataDetails1() => PokemonDetailsEntity(
+        name: 'nidoking',
         id: 1,
-        urlPhoto: faker.internet.httpUrl(),
+        urlPhoto: 'http://www.image/1',
         types: [
           TypeEntity(
-            name: faker.person.name(),
-            order: faker.randomGenerator.integer(100),
+            name: 'type_1_0',
+            order: 0,
           ),
           TypeEntity(
-            name: faker.person.name(),
-            order: faker.randomGenerator.integer(100),
+            name: 'type_1_1',
+            order: 1,
           ),
         ],
         weight: 34,
         height: 7,
         abilities: [
-          AbilityEntity(name: faker.person.name()),
-          AbilityEntity(name: faker.person.name()),
+          AbilityEntity(name: 'ability_1_0'),
+          AbilityEntity(name: 'ability_1_1'),
+        ],
+        hp: 20,
+        attack: 30,
+        defense: 40,
+        specialAttack: 50,
+        specialDefense: 60,
+        speed: 70,
+      );
+
+  PokemonDetailsEntity mockValidDataDetails2() => PokemonDetailsEntity(
+        name: 'nidoqueen',
+        id: 2,
+        urlPhoto: 'http://www.image/2',
+        types: [
+          TypeEntity(
+            name: 'type_2_0',
+            order: 0,
+          ),
+          TypeEntity(
+            name: 'type_2_1',
+            order: 1,
+          ),
+        ],
+        weight: 34,
+        height: 7,
+        abilities: [
+          AbilityEntity(
+            name: 'ability_2_0',
+          ),
+          AbilityEntity(name: 'ability_2_1'),
         ],
         hp: 20,
         attack: 30,
@@ -71,9 +100,13 @@ main() {
     when(loadPokemons.load(any)).thenAnswer((_) async => data);
   }
 
-  void mockLoadPokemonDetails(PokemonDetailsEntity data) {
-    details = data;
-    when(loadPokemonDetails.loadByPokemon(any)).thenAnswer((_) async => data);
+  void mockLoadPokemonDetails() {
+    when(loadPokemonDetails.loadByPokemon('nidoqueen')).thenAnswer((_) async {
+      return mockValidDataDetails2();
+    });
+    when(loadPokemonDetails.loadByPokemon('nidoking')).thenAnswer((_) async {
+      return mockValidDataDetails1();
+    });
   }
 
   void mockLoadPokemonsError() =>
@@ -90,7 +123,7 @@ main() {
       loadPokemonDetails: loadPokemonDetails,
     );
     mockLoadPokemons(mockValidData());
-    mockLoadPokemonDetails(mockValidDataDetails());
+    mockLoadPokemonDetails();
     search = faker.lorem.word();
   });
 
@@ -189,23 +222,23 @@ main() {
         (pokemonsDetailsReturned) => expect(pokemonsDetailsReturned, {
               'Nidoqueen': PokemonDetailsViewModel(
                 name: 'Nidoqueen',
-                id: '#001',
-                urlPhoto: details.urlPhoto,
+                id: '#002',
+                urlPhoto: 'http://www.image/2',
                 types: [
                   TypeViewModel(
-                    order: details.types[0].order,
-                    name: details.types[0].name,
+                    order: 0,
+                    name: 'type_2_0',
                   ),
                   TypeViewModel(
-                    order: details.types[1].order,
-                    name: details.types[1].name,
+                    order: 1,
+                    name: 'type_2_1',
                   ),
                 ],
                 weight: '3,4 kg',
                 height: '0,7 m',
                 abilities: [
-                  AbilityViewModel(name: details.abilities[0].name),
-                  AbilityViewModel(name: details.abilities[1].name),
+                  AbilityViewModel(name: 'ability_2_0'),
+                  AbilityViewModel(name: 'ability_2_1'),
                 ],
                 hp: '020',
                 attack: '030',
@@ -234,23 +267,23 @@ main() {
         (pokemonsDetailsReturned) => expect(pokemonsDetailsReturned, {
               'Nidoqueen': PokemonDetailsViewModel(
                 name: 'Nidoqueen',
-                id: '#001',
-                urlPhoto: details.urlPhoto,
+                id: '#002',
+                urlPhoto: 'http://www.image/2',
                 types: [
                   TypeViewModel(
-                    order: details.types[0].order,
-                    name: details.types[0].name,
+                    order: 0,
+                    name: 'type_2_0',
                   ),
                   TypeViewModel(
-                    order: details.types[1].order,
-                    name: details.types[1].name,
+                    order: 1,
+                    name: 'type_2_1',
                   ),
                 ],
                 weight: '3,4 kg',
                 height: '0,7 m',
                 abilities: [
-                  AbilityViewModel(name: details.abilities[0].name),
-                  AbilityViewModel(name: details.abilities[1].name),
+                  AbilityViewModel(name: 'ability_2_0'),
+                  AbilityViewModel(name: 'ability_2_1'),
                 ],
                 hp: '020',
                 attack: '030',
@@ -260,24 +293,24 @@ main() {
                 speed: '070',
               ),
               'Nidoking': PokemonDetailsViewModel(
-                name: 'Nidoqueen',
+                name: 'Nidoking',
                 id: '#001',
-                urlPhoto: details.urlPhoto,
+                urlPhoto: 'http://www.image/1',
                 types: [
                   TypeViewModel(
-                    order: details.types[0].order,
-                    name: details.types[0].name,
+                    order: 0,
+                    name: 'type_1_0',
                   ),
                   TypeViewModel(
-                    order: details.types[1].order,
-                    name: details.types[1].name,
+                    order: 1,
+                    name: 'type_1_1',
                   ),
                 ],
                 weight: '3,4 kg',
                 height: '0,7 m',
                 abilities: [
-                  AbilityViewModel(name: details.abilities[0].name),
-                  AbilityViewModel(name: details.abilities[1].name),
+                  AbilityViewModel(name: 'ability_1_0'),
+                  AbilityViewModel(name: 'ability_1_1'),
                 ],
                 hp: '020',
                 attack: '030',
@@ -445,7 +478,7 @@ main() {
                 id: null,
               ),
             ]))));
-        sut.search('001');
+        sut.search('002');
       });
     });
   });
