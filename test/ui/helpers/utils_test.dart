@@ -13,6 +13,16 @@ void main() {
       expect(capitalize(text), 'Pokemon name');
     });
 
+    test('Should captilize string with one character', () {
+      final text = 'p';
+      expect(capitalize(text), 'P');
+    });
+
+    test('Should captilize string in upper case with one character', () {
+      final text = 'P';
+      expect(capitalize(text), 'P');
+    });
+
     test('Should return empty string if string is empty', () {
       final text = '';
       expect(capitalize(text), '');
