@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_test_utils/image_test_utils.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
+import 'package:pokedex/ui/helpers/sorting/ui_sorting.dart';
 import 'package:pokedex/ui/pages/pokemons/components/components.dart';
 import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
@@ -22,13 +23,14 @@ main() {
   StreamController<String> searchController;
   StreamController<Map<String, PokemonDetailsViewModel>>
       pokemonDetailsController;
+  StreamController<UISorting> sortingController;
 
   initStreams() {
     isLoadingController = StreamController<bool>();
     loadPokemonsController = StreamController<PokemonsResultViewModel>();
     navigateToController = StreamController<String>();
     searchController = StreamController<String>.broadcast();
-
+    sortingController = StreamController<UISorting>();
     pokemonDetailsController =
         StreamController<Map<String, PokemonDetailsViewModel>>.broadcast();
   }
@@ -43,6 +45,7 @@ main() {
     when(presenter.pokemonDetailsStream)
         .thenAnswer((_) => pokemonDetailsController.stream);
     when(presenter.searchStream).thenAnswer((_) => searchController.stream);
+    when(presenter.sortingStream).thenAnswer((_) => sortingController.stream);
   }
 
   PokemonsResultViewModel makePokemons() => PokemonsResultViewModel(pokemons: [
@@ -141,6 +144,7 @@ main() {
     navigateToController.close();
     pokemonDetailsController.close();
     searchController.close();
+    sortingController.close();
   }
 
   tearDown(() {
@@ -430,5 +434,24 @@ main() {
 
     await tester.tap(find.text('A'));
     verify(presenter.goToChangeSorting()).called(1);
+  });
+
+  testWidgets('Should show selected sorting', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.add(makePokemons());
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+
+    expect(find.text('A'), findsOneWidget);
+
+    sortingController.add(UISorting.number);
+    await tester.pumpAndSettle();
+    expect(find.text('#'), findsOneWidget);
+
+    sortingController.add(UISorting.name);
+    await tester.pumpAndSettle();
+    expect(find.text('A'), findsOneWidget);
   });
 }

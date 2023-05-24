@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:pokedex/domain/usecases/usecases.dart';
 import 'package:pokedex/presentation/mixins/mixins.dart';
 import 'package:pokedex/ui/helpers/erros/ui_erros.dart';
+import 'package:pokedex/ui/helpers/sorting/ui_sorting.dart';
 import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 import 'package:pokedex/ui/pages/pokemons/pokemons.dart';
 
@@ -23,9 +24,9 @@ class GetxPokemonsPresenter extends GetxController
   Stream<PokemonsResultViewModel> get pokemonsStream =>
       _foundedsPokemons.stream;
   Stream<String> get searchStream => _search.stream;
-
   Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream =>
       _details.stream;
+  Stream<UISorting> get sortingStream => throw UnimplementedError();
 
   GetxPokemonsPresenter({
     @required this.loadPokemons,

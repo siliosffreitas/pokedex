@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:pokedex/ui/components/components.dart';
+import 'package:pokedex/ui/helpers/sorting/ui_sorting.dart';
 import 'package:provider/provider.dart';
 
 import 'components/components.dart';
@@ -141,11 +142,18 @@ class PokemonsPage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 alignment: Alignment.center,
-                                child: Text(
-                                  'A',
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
-                                ),
+                                child: StreamBuilder<UISorting>(
+                                    stream: presenter.sortingStream,
+                                    builder: (context, snapshot) {
+                                      return Text(
+                                        snapshot.data == null
+                                            ? 'A'
+                                            : snapshot.data.symbol,
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                      );
+                                    }),
                               ),
                             )
                           ],

@@ -1,3 +1,5 @@
+import 'package:pokedex/ui/helpers/sorting/ui_sorting.dart';
+
 import 'components/view_models/pokemon_result_view_model.dart';
 import 'components/view_models/view_models.dart';
 
@@ -7,6 +9,7 @@ abstract class PokemonsPresenter {
   Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream;
   Stream<String> get navigateToStream;
   Stream<String> get searchStream;
+  Stream<UISorting> get sortingStream;
 
   Future<void> loadData();
 
