@@ -489,4 +489,19 @@ main() {
 
     verify(presenter.changeSorting(UISorting.name)).called(1);
   });
+
+  testWidgets('Should close popup on option popup click',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/modal_sorting');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Name'));
+
+    await tester.pumpAndSettle();
+
+    expect(find.text('Sort by:'), findsNothing);
+    expect(find.text('Number'), findsNothing);
+    expect(find.text('Name'), findsNothing);
+  });
 }

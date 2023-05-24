@@ -33,6 +33,12 @@ void showSortingModal(BuildContext context, PokemonsPresenter presenter) {
       ));
 }
 
+void hideSortingModal(BuildContext context) {
+  if (Navigator.canPop(context)) {
+    Navigator.pop(context);
+  }
+}
+
 class SortingItem extends StatelessWidget {
   final UISorting sorting;
 
@@ -48,6 +54,7 @@ class SortingItem extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               presenter.changeSorting(sorting);
+              hideSortingModal(context);
             },
             child: Row(
               children: [
