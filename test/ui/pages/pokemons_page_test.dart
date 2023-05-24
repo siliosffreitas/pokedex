@@ -340,4 +340,18 @@ main() {
     await tester.pumpAndSettle();
     expect(find.byIcon(Icons.close), findsNothing);
   });
+
+  testWidgets('Should call clearSearch on X button',
+      (WidgetTester tester) async {
+    final search = faker.randomGenerator.string(10);
+    await loadPage(tester);
+
+    searchController.add(search);
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.close));
+    await tester.pump();
+
+    verify(presenter.clearSearch()).called(1);
+  });
 }

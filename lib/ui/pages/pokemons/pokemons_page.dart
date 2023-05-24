@@ -90,7 +90,11 @@ class PokemonsPage extends StatelessWidget {
                                           ),
                                           if (snapshot.hasData &&
                                               snapshot.data.isNotEmpty)
-                                            Icon(Icons.close, size: 16),
+                                            IconButton(
+                                                onPressed:
+                                                    presenter.clearSearch,
+                                                icon: Icon(Icons.close,
+                                                    size: 16)),
                                         ],
                                       );
                                     }),

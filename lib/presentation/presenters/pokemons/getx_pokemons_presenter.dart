@@ -72,4 +72,6 @@ class GetxPokemonsPresenter extends GetxController
       _details.subject.addError(UIError.unexpected.description);
     }
   }
+
+  void clearSearch() {}
 }

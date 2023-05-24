@@ -13,4 +13,6 @@ abstract class PokemonsPresenter {
   void goToPokemonDetail(String id);
 
   Future<void> loadDetails(String pokemonName);
+
+  void clearSearch();
 }
