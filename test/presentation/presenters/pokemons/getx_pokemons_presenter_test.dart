@@ -339,6 +339,23 @@ main() {
       sut.search('Nidoq');
     });
 
+    test(
+        'Should return only pokemons that partial matchs in name ignoring case',
+        () async {
+      await sut.loadData();
+
+      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+          pokemonsReturned,
+          PokemonsResultViewModel(pokemons: [
+            PokemonViewModel(
+              url: pokemons.pokemons[0].url,
+              name: 'Nidoqueen',
+              id: null,
+            ),
+          ]))));
+      sut.search('nidoq');
+    });
+
     test('Should return all pokemons search is null', () async {
       await sut.loadData();
       sut.search('Nidoqueen');
