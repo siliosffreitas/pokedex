@@ -85,7 +85,7 @@ class GetxPokemonsPresenter extends GetxController
 
   void search(String term) {
     _search.value = term;
-    if (term != null) {
+    if (term?.isNotEmpty == true) {
       final p = <PokemonViewModel>[]..addAll(_foundedsPokemons.value.pokemons
           .where((pokemon) => pokemon.name == term));
       _foundedsPokemons.value = PokemonsResultViewModel(pokemons: p);
