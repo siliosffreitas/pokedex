@@ -13,6 +13,8 @@ Pelo fato de ter sido feito com TDD a cobertura de teste está em **100%**, como
 `genhtml coverage/lcov.info -o coverage/html`
 
 `open coverage/html/index.html`
+<img src="/screenshots/show_tests.png" width="400" title="Detalhes de Testes na IDE"/>
+<img src="/screenshots/show_tests_2.png" width="400" title="Detalhes de Testes no navegador"/>
 
 ## Observações:
 1. A busca e a ordenação é feita localmente com os dados que já estão na lista.
