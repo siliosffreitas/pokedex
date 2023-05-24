@@ -454,4 +454,13 @@ main() {
     await tester.pumpAndSettle();
     expect(find.text('A'), findsOneWidget);
   });
+
+  testWidgets('Should show modal sorting correctely',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/modal_sorting');
+    await tester.pump();
+    expect(find.text('Sort by:'), findsOneWidget);
+  });
 }

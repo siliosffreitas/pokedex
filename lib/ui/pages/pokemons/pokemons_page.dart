@@ -30,7 +30,11 @@ class PokemonsPage extends StatelessWidget {
           presenter.loadData();
           presenter.navigateToStream.listen((page) {
             if (page?.isNotEmpty == true) {
-              Get.toNamed(page);
+              if (page == '/modal_sorting') {
+                showSortingModal(context);
+              } else {
+                Get.toNamed(page);
+              }
             }
           });
           return SafeArea(
