@@ -521,5 +521,30 @@ main() {
 
       sut.changeSorting(UISorting.name);
     });
+
+    test('Should sort by code', () async {
+      await sut.loadData();
+      await sut
+          .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
+      await sut
+          .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]).name);
+
+      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+          pokemonsReturned,
+          PokemonsResultViewModel(pokemons: [
+            PokemonViewModel(
+              url: pokemons.pokemons[1].url,
+              name: 'Nidoking',
+              id: null,
+            ),
+            PokemonViewModel(
+              url: pokemons.pokemons[0].url,
+              name: 'Nidoqueen',
+              id: null,
+            ),
+          ]))));
+
+      sut.changeSorting(UISorting.number);
+    });
   });
 }

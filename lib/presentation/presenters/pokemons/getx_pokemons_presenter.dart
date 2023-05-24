@@ -115,11 +115,45 @@ class GetxPokemonsPresenter extends GetxController
   void changeSorting(UISorting newSorting) {
     _sorting.value = newSorting;
 
-    if (newSorting == UISorting.name) {
-      final p = <PokemonViewModel>[]..addAll(_foundedsPokemons.value.pokemons);
-      p.sort((a, b) => a.name.compareTo(b.name));
-
-      _foundedsPokemons.value = PokemonsResultViewModel(pokemons: p);
+    switch (newSorting) {
+      case UISorting.number:
+        _sortingByNumber();
+        break;
+      default:
+        _sortingByName();
     }
+  }
+
+  _sortingByNumber() {
+    if (_details.value != null) {
+      final p = <PokemonDetailsViewModel>[]
+        ..addAll(_details.value.values.toList());
+
+      p.sort((a, b) => a.id.compareTo(b.id));
+
+      final namesInOrderByNumber =
+          p.map<String>((pokemonViewModel) => pokemonViewModel.name).toList();
+
+      List<PokemonViewModel> pokemonsSortedByNumber = [];
+
+      for (String name in namesInOrderByNumber) {
+        final _foundeds = _foundedsPokemons.value.pokemons
+            .where((pokemon) => pokemon.name == name)
+            .toList();
+
+        _foundeds.sort((a, b) => a.name.compareTo(b.name));
+
+        pokemonsSortedByNumber.addAll(_foundeds);
+      }
+      _foundedsPokemons.value =
+          PokemonsResultViewModel(pokemons: pokemonsSortedByNumber);
+    }
+  }
+
+  _sortingByName() {
+    final p = <PokemonViewModel>[]..addAll(_foundedsPokemons.value.pokemons);
+    p.sort((a, b) => a.name.compareTo(b.name));
+
+    _foundedsPokemons.value = PokemonsResultViewModel(pokemons: p);
   }
 }
