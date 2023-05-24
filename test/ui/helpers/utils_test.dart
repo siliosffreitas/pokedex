@@ -17,5 +17,10 @@ void main() {
       final text = '';
       expect(capitalize(text), '');
     });
+
+    test('Should return null string if string is null', () {
+      final text = null;
+      expect(capitalize(text), null);
+    });
   });
 }
