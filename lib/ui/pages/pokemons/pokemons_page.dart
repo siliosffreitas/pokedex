@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:pokedex/ui/components/components.dart';
-import 'package:pokedex/ui/helpers/sorting/ui_sorting.dart';
 import 'package:provider/provider.dart';
 
 import 'components/components.dart';
