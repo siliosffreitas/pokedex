@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/ui/components/components.dart';
+import 'package:pokedex/ui/pages/pokemons/components/view_models/view_models.dart';
 
 import 'components/components.dart';
 import 'pokemon_details_presenter.dart';
@@ -24,12 +25,23 @@ class PokemonDetailsPage extends StatelessWidget {
       backgroundColor: Colors.green,
       body: SafeArea(child: Builder(
         builder: (BuildContext context) {
-          return Column(
-            children: [
-              CustomAppBar(),
-              Expanded(child: Content()),
-            ],
-          );
+          return StreamBuilder<PokemonDetailsViewModel>(
+              stream: presenter.pokemonDetailsStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return ReloadScreenPage(
+                      error: snapshot.error, reload: presenter.loadData);
+                }
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      CustomAppBar(),
+                      Expanded(child: Content()),
+                    ],
+                  );
+                }
+                return Container();
+              });
         },
       )),
     );
