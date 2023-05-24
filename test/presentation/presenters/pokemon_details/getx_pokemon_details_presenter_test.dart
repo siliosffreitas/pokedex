@@ -19,7 +19,7 @@ void main() {
   PokemonDetailsEntity details;
 
   PokemonDetailsEntity mockValidDataDetails() => PokemonDetailsEntity(
-        name: faker.lorem.word(),
+        name: 'charmander',
         id: 1,
         urlPhoto: faker.internet.httpUrl(),
         types: [
@@ -74,7 +74,7 @@ void main() {
     sut.pokemonDetailsStream.listen(expectAsync1((pokemonsReturned) => expect(
         pokemonsReturned,
         PokemonDetailsViewModel(
-          name: details.name,
+          name: 'Charmander',
           id: '#001',
           urlPhoto: details.urlPhoto,
           types: [
