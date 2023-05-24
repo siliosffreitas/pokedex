@@ -140,7 +140,7 @@ class PokemonsPage extends StatelessWidget {
                               ),
                               alignment: Alignment.center,
                               child: Text(
-                                '#',
+                                'A',
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor),
                               ),

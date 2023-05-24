@@ -201,6 +201,7 @@ main() {
     expect(find.text('Recarregar'), findsNothing);
     expect(find.text('Pokémon 1'), findsWidgets);
     expect(find.text('Pokémon 2'), findsWidgets);
+    expect(find.text('A'), findsWidgets);
     expect(find.byType(LoadNextPage), findsOneWidget);
   });
 
