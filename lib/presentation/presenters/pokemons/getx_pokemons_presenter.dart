@@ -18,6 +18,7 @@ class GetxPokemonsPresenter extends GetxController
 
   var _search = RxString();
   var _details = Rx<Map<String, PokemonDetailsViewModel>>();
+  var _sorting = Rx<UISorting>();
 
   int _page = 0;
 
@@ -26,7 +27,7 @@ class GetxPokemonsPresenter extends GetxController
   Stream<String> get searchStream => _search.stream;
   Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream =>
       _details.stream;
-  Stream<UISorting> get sortingStream => throw UnimplementedError();
+  Stream<UISorting> get sortingStream => _sorting.stream;
 
   GetxPokemonsPresenter({
     @required this.loadPokemons,
@@ -111,5 +112,7 @@ class GetxPokemonsPresenter extends GetxController
     navigateTo = '/modal_sorting';
   }
 
-  void changeSorting(UISorting newSorting) {}
+  void changeSorting(UISorting newSorting) {
+    _sorting.value = newSorting;
+  }
 }
