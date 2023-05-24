@@ -21,6 +21,7 @@ main() {
   LoadPokemonDetails loadPokemonDetails;
   PokemonResultEntity pokemons;
   PokemonDetailsEntity details;
+  String search;
 
   PokemonResultEntity mockValidData() => PokemonResultEntity(
         total: faker.randomGenerator.integer(100),
@@ -89,6 +90,7 @@ main() {
     );
     mockLoadPokemons(mockValidData());
     mockLoadPokemonDetails(mockValidDataDetails());
+    search = faker.lorem.word();
   });
 
   test('Should call loadPokemons on loadData', () {
@@ -286,5 +288,11 @@ main() {
             })));
     await sut
         .loadDetails(PokemonViewModel.fromEntity(pokemons.pokemons[1]).name);
+  });
+
+  test('Should show X button if search is inputed', () async {
+    expectLater(sut.searchStream, emits(search));
+
+    sut.search(search);
   });
 }

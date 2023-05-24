@@ -13,13 +13,13 @@ class GetxPokemonsPresenter extends GetxController
   final LoadPokemonDetails loadPokemonDetails;
 
   var _pokemons = Rx<PokemonsResultViewModel>();
-
+  var _search = RxString();
   var _details = Rx<Map<String, PokemonDetailsViewModel>>();
 
   int _page = 0;
 
   Stream<PokemonsResultViewModel> get pokemonsStream => _pokemons.stream;
-  Stream<String> get searchStream => throw UnimplementedError();
+  Stream<String> get searchStream => _search.stream;
 
   Stream<Map<String, PokemonDetailsViewModel>> get pokemonDetailsStream =>
       _details.stream;
@@ -75,5 +75,7 @@ class GetxPokemonsPresenter extends GetxController
 
   void clearSearch() {}
 
-  void search(String term) {}
+  void search(String term) {
+    _search.value = term;
+  }
 }
