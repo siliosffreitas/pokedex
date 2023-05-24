@@ -386,6 +386,27 @@ main() {
         sut.search(null);
       });
 
+      test('Should return all pokemons search is after filter', () async {
+        await sut.loadData();
+        sut.search('Nidoqueen');
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[1].url,
+                name: 'Nidoking',
+                id: null,
+              ),
+            ]))));
+        sut.search('Nido');
+      });
+
       test('Should return all pokemons search is empty', () async {
         await sut.loadData();
         sut.search('Nidoqueen');
