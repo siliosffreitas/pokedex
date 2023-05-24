@@ -309,93 +309,114 @@ main() {
       sut.clearSearch();
     });
 
-    test('Should return only pokemons that matchs in name', () async {
-      await sut.loadData();
+    group('by name', () {
+      test('Should return only pokemons that matchs in name', () async {
+        await sut.loadData();
 
-      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
-          pokemonsReturned,
-          PokemonsResultViewModel(pokemons: [
-            PokemonViewModel(
-              url: pokemons.pokemons[0].url,
-              name: 'Nidoqueen',
-              id: null,
-            ),
-          ]))));
-      sut.search('Nidoqueen');
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+            ]))));
+        sut.search('Nidoqueen');
+      });
+
+      test('Should return only pokemons that partial matchs in name', () async {
+        await sut.loadData();
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+            ]))));
+        sut.search('Nidoq');
+      });
+
+      test(
+          'Should return only pokemons that partial matchs in name ignoring case',
+          () async {
+        await sut.loadData();
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+            ]))));
+        sut.search('nidoq');
+      });
+
+      test('Should return all pokemons search is null', () async {
+        await sut.loadData();
+        sut.search('Nidoqueen');
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[1].url,
+                name: 'Nidoking',
+                id: null,
+              ),
+            ]))));
+        sut.search(null);
+      });
+
+      test('Should return all pokemons search is empty', () async {
+        await sut.loadData();
+        sut.search('Nidoqueen');
+
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+              PokemonViewModel(
+                url: pokemons.pokemons[1].url,
+                name: 'Nidoking',
+                id: null,
+              ),
+            ]))));
+        sut.search('');
+      });
     });
 
-    test('Should return only pokemons that partial matchs in name', () async {
-      await sut.loadData();
+    group('by code', () {
+      test('Should return only pokemons that matchs in code', () async {
+        await sut.loadData();
+        await sut.loadDetails(
+            PokemonViewModel.fromEntity(pokemons.pokemons[0]).name);
 
-      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
-          pokemonsReturned,
-          PokemonsResultViewModel(pokemons: [
-            PokemonViewModel(
-              url: pokemons.pokemons[0].url,
-              name: 'Nidoqueen',
-              id: null,
-            ),
-          ]))));
-      sut.search('Nidoq');
-    });
-
-    test(
-        'Should return only pokemons that partial matchs in name ignoring case',
-        () async {
-      await sut.loadData();
-
-      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
-          pokemonsReturned,
-          PokemonsResultViewModel(pokemons: [
-            PokemonViewModel(
-              url: pokemons.pokemons[0].url,
-              name: 'Nidoqueen',
-              id: null,
-            ),
-          ]))));
-      sut.search('nidoq');
-    });
-
-    test('Should return all pokemons search is null', () async {
-      await sut.loadData();
-      sut.search('Nidoqueen');
-
-      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
-          pokemonsReturned,
-          PokemonsResultViewModel(pokemons: [
-            PokemonViewModel(
-              url: pokemons.pokemons[0].url,
-              name: 'Nidoqueen',
-              id: null,
-            ),
-            PokemonViewModel(
-              url: pokemons.pokemons[1].url,
-              name: 'Nidoking',
-              id: null,
-            ),
-          ]))));
-      sut.search(null);
-    });
-
-    test('Should return all pokemons search is empty', () async {
-      await sut.loadData();
-      sut.search('Nidoqueen');
-
-      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
-          pokemonsReturned,
-          PokemonsResultViewModel(pokemons: [
-            PokemonViewModel(
-              url: pokemons.pokemons[0].url,
-              name: 'Nidoqueen',
-              id: null,
-            ),
-            PokemonViewModel(
-              url: pokemons.pokemons[1].url,
-              name: 'Nidoking',
-              id: null,
-            ),
-          ]))));
-      sut.search('');
+        sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+            pokemonsReturned,
+            PokemonsResultViewModel(pokemons: [
+              PokemonViewModel(
+                url: pokemons.pokemons[0].url,
+                name: 'Nidoqueen',
+                id: null,
+              ),
+            ]))));
+        sut.search('001');
+      });
     });
   });
 }

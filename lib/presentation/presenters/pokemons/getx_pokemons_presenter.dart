@@ -86,12 +86,23 @@ class GetxPokemonsPresenter extends GetxController
   void search(String term) {
     _search.value = term;
     if (term?.isNotEmpty == true) {
-      final p = <PokemonViewModel>[]..addAll(_foundedsPokemons.value.pokemons
-          .where((pokemon) =>
-              pokemon.name.toLowerCase().contains(term.toLowerCase())));
+      final p = <PokemonViewModel>[]
+        ..addAll(_foundedsPokemons.value.pokemons.where((pokemon) =>
+            pokemon.name.toLowerCase().contains(term.toLowerCase()) ||
+            _findPokemonNameByCode(term.toLowerCase()).contains(pokemon.name)));
       _foundedsPokemons.value = PokemonsResultViewModel(pokemons: p);
     } else {
       _foundedsPokemons.value = _allPokemons;
     }
+  }
+
+  List<String> _findPokemonNameByCode(String code) {
+    if (_details.value != null) {
+      final pokemonsWithCodeStartinWith = _details.value.values.where(
+          (PokemonDetailsViewModel element) => element.id.contains(code));
+
+      return pokemonsWithCodeStartinWith.map((e) => e.name).toList();
+    }
+    return [];
   }
 }
