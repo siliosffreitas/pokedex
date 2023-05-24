@@ -27,7 +27,7 @@ main() {
     isLoadingController = StreamController<bool>();
     loadPokemonsController = StreamController<PokemonsResultViewModel>();
     navigateToController = StreamController<String>();
-    searchController = StreamController<String>();
+    searchController = StreamController<String>.broadcast();
 
     pokemonDetailsController =
         StreamController<Map<String, PokemonDetailsViewModel>>.broadcast();
@@ -400,5 +400,21 @@ main() {
 
     expect(
         tester.widget<TextField>(find.byType(TextField)).controller.text, '');
+  });
+
+  testWidgets('Should not show the LoadNextPage on search',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    loadPokemonsController.add(makePokemons());
+    await provideMockedNetworkImages(() async {
+      await tester.pump();
+    });
+
+    final termSearch = faker.lorem.word();
+    searchController.add(termSearch);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LoadNextPage), findsNothing);
   });
 }
