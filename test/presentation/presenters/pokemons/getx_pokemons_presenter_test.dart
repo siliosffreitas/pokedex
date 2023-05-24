@@ -292,6 +292,7 @@ main() {
 
   group('search', () {
     test('Should show X button if search is inputed or not', () async {
+      await sut.loadData();
       expectLater(sut.searchStream, emitsInOrder([search, null, search, '']));
       sut.search(search);
       sut.search(null);
@@ -300,6 +301,7 @@ main() {
     });
 
     test('Should clear search on call clearSearch', () async {
+      await sut.loadData();
       expectLater(sut.searchStream, emitsInOrder([search, null, '', null]));
       sut.search(search);
       sut.clearSearch();
@@ -320,6 +322,27 @@ main() {
             ),
           ]))));
       sut.search('Nidoqueen');
+    });
+
+    test('Should return all pokemons search is null', () async {
+      await sut.loadData();
+      sut.search('Nidoqueen');
+
+      sut.pokemonsStream.listen(expectAsync1((pokemonsReturned) => expect(
+          pokemonsReturned,
+          PokemonsResultViewModel(pokemons: [
+            PokemonViewModel(
+              url: pokemons.pokemons[0].url,
+              name: 'Nidoqueen',
+              id: null,
+            ),
+            PokemonViewModel(
+              url: pokemons.pokemons[1].url,
+              name: 'Nidoking',
+              id: null,
+            ),
+          ]))));
+      sut.search(null);
     });
   });
 }
