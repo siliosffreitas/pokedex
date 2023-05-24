@@ -34,7 +34,7 @@ class App extends StatelessWidget {
         )),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/pokemon/bulbasaur',
+      initialRoute: '/pokemon/nidoqueen',
       getPages: [
         GetPage(
             name: '/pokemons',

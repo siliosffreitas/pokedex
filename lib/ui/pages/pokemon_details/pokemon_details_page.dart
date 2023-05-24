@@ -150,7 +150,7 @@ class CustomAppBar extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 70),
           child: Image.network(
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png',
+            viewModel.urlPhoto,
             width: 200,
           ),
         ),

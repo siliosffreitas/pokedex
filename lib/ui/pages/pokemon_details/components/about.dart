@@ -84,10 +84,12 @@ class About extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  child: Column(
-                      children: viewModel.abilities
-                          .map((ability) => AbilityItem(viewModel: ability))
-                          .toList()),
+                  child: SingleChildScrollView(
+                    child: Column(
+                        children: viewModel.abilities
+                            .map((ability) => AbilityItem(viewModel: ability))
+                            .toList()),
+                  ),
                 ),
                 Text(
                   'Moves',
