@@ -8,7 +8,7 @@ Por escolha, decidi por desenvolver o app usando a versão 1.20.4 (sem nullsafe)
 
 Pelo fato de ter sido feito com TDD a cobertura de teste está em **100%**, como pode ser visto em <a href="coverage/html/index.html">**coverage/html/index.html**</a> ou rodando seguintes comandos:
 
-`flutter test --coverage`
+`flutter test --coverage` recomendo rodar com o `fvm` no início 
 
 `genhtml coverage/lcov.info -o coverage/html`
 
